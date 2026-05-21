@@ -444,6 +444,7 @@ label.btn{cursor:pointer}
       <p>逐月記錄存款 · 追蹤各帳戶成長 · 倒數財富自由目標</p>
     </div>
     <div class="masthead-actions">
+      <div id="authBar" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"></div>
       <button class="btn" onclick="openHistory()">📋 存款歷史</button>
       <button class="btn btn-honey" onclick="exportData()">⬇ 匯出備份</button>
       <label class="btn">⬆ 匯入備份<input type="file" accept=".json" onchange="importData(event)" style="display:none"/></label>
@@ -608,13 +609,12 @@ label.btn{cursor:pointer}
 <div id="saveToast">✓ 已自動儲存</div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
-<script>
+<script type="module">
 let accounts = [];
 let nextId = 1;
 let viewYear  = new Date().getFullYear();
 let viewMonth = new Date().getMonth() + 1;
 let goal = { amt: 0, date: '', monthly: 0 };
-const LS_KEY = 'wealthlog_v1';
 
 const TC = {
   savings: { label:'活存',     bg:'rgba(100,190,170,.15)', color:'#5ab8a8', fill:'#5ab8a8' },
@@ -782,18 +782,90 @@ function loadDemo(){
   render();
 }
 
+// ── FIREBASE ─────────────────────────────────────────────
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged }
+  from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
+import { getFirestore, doc, setDoc, onSnapshot }
+  from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBSFe5vt8q4grObaNC543r40Nh_DZQfFsg",
+  authDomain: "my-finance-d611b.firebaseapp.com",
+  projectId: "my-finance-d611b",
+  storageBucket: "my-finance-d611b.firebasestorage.app",
+  messagingSenderId: "429764877571",
+  appId: "1:429764877571:web:cf18593e3ac8384e2ddd36"
+};
+const fbApp  = initializeApp(firebaseConfig);
+const auth   = getAuth(fbApp);
+const db     = getFirestore(fbApp);
+
+let currentUser = null;
+let unsubscribe = null;
+
+function updateAuthUI(user){
+  const bar=document.getElementById('authBar');
+  if(user){
+    bar.innerHTML=`
+      <img src="${user.photoURL}" style="width:26px;height:26px;border-radius:50%;object-fit:cover"/>
+      <span style="font-size:12px;color:var(--mist)">${user.displayName}</span>
+      <button class="btn btn-sm" onclick="handleSignOut()" style="border-color:var(--sage);color:var(--sage)">登出</button>`;
+  } else {
+    bar.innerHTML=`
+      <button class="btn btn-honey btn-sm" onclick="handleSignIn()">
+        <svg width="14" height="14" viewBox="0 0 48 48"><path fill="#fff" d="M44.5 20H24v8.5h11.8C34.7 33.9 30.1 37 24 37c-7.2 0-13-5.8-13-13s5.8-13 13-13c3.1 0 5.9 1.1 8.1 2.9l6.4-6.4C34.6 4.1 29.6 2 24 2 11.8 2 2 11.8 2 24s9.8 22 22 22c11 0 21-8 21-21.5 0-1.4-.1-2.7-.5-4.5z"/></svg>
+        Google 登入以同步資料
+      </button>`;
+  }
+}
+
+async function handleSignIn(){
+  try{ await signInWithPopup(auth,new GoogleAuthProvider()); }
+  catch(e){ console.error(e); alert('登入失敗，請再試一次'); }
+}
+async function handleSignOut(){
+  if(unsubscribe){unsubscribe();unsubscribe=null;}
+  await signOut(auth);
+  accounts=[]; goal={amt:0,date:'',monthly:0};
+  ['goalAmt','goalDate','goalMonthly'].forEach(id=>document.getElementById(id).value='');
+  _render();
+}
+
+let saveTimer=null;
 let toastTimer;
 function showToast(){ const t=document.getElementById('saveToast'); t.style.display='flex'; clearTimeout(toastTimer); toastTimer=setTimeout(()=>{t.style.display='none';},1800); }
-function save(){ try{localStorage.setItem(LS_KEY,JSON.stringify({accounts,nextId,viewYear,viewMonth,goal})); showToast();}catch(e){console.warn(e);} }
-function load(){
-  try{
-    const raw=localStorage.getItem(LS_KEY); if(!raw)return;
-    const d=JSON.parse(raw);
-    accounts=d.accounts||[]; nextId=d.nextId||1;
-    if(d.viewYear)viewYear=d.viewYear; if(d.viewMonth)viewMonth=d.viewMonth;
-    if(d.goal){goal=d.goal; if(goal.amt)document.getElementById('goalAmt').value=goal.amt; if(goal.date)document.getElementById('goalDate').value=goal.date; if(goal.monthly)document.getElementById('goalMonthly').value=goal.monthly;}
-  }catch(e){console.warn(e);}
+function save(){
+  showToast();
+  if(!currentUser)return;
+  clearTimeout(saveTimer);
+  saveTimer=setTimeout(async()=>{
+    try{
+      await setDoc(doc(db,'users',currentUser.uid,'data','wealthlog'),
+        {accounts,nextId,viewYear,viewMonth,goal,updatedAt:Date.now()});
+    }catch(e){console.warn('Firestore save failed',e);}
+  },800);
 }
+
+function applyGoalToUI(g){
+  if(g.amt)document.getElementById('goalAmt').value=g.amt;
+  if(g.date)document.getElementById('goalDate').value=g.date;
+  if(g.monthly)document.getElementById('goalMonthly').value=g.monthly;
+}
+
+function subscribeToData(uid){
+  if(unsubscribe)unsubscribe();
+  unsubscribe=onSnapshot(doc(db,'users',uid,'data','wealthlog'),snap=>{
+    if(snap.exists()){
+      const d=snap.data();
+      accounts=d.accounts||[]; nextId=d.nextId||1;
+      if(d.viewYear)viewYear=d.viewYear; if(d.viewMonth)viewMonth=d.viewMonth;
+      if(d.goal){goal=d.goal; applyGoalToUI(goal);}
+      _render();
+    }
+  });
+}
+
 function exportData(){
   if(!accounts.length){alert('尚無資料可匯出');return;}
   const blob=new Blob([JSON.stringify({accounts,nextId,goal},null,2)],{type:'application/json'});
@@ -810,8 +882,8 @@ function importData(ev){
       if(!d.accounts||!Array.isArray(d.accounts))throw new Error('格式錯誤');
       if(!confirm(`匯入後將取代目前 ${accounts.length} 筆帳戶，確定？`))return;
       accounts=d.accounts; nextId=d.nextId||1;
-      if(d.goal){goal=d.goal; if(goal.amt)document.getElementById('goalAmt').value=goal.amt; if(goal.date)document.getElementById('goalDate').value=goal.date; if(goal.monthly)document.getElementById('goalMonthly').value=goal.monthly;}
-      save(); render(); alert('✓ 匯入成功！');
+      if(d.goal){goal=d.goal; applyGoalToUI(goal);}
+      save(); _render(); alert('✓ 匯入成功！');
     }catch(err){alert('匯入失敗：'+err.message);}
   };
   reader.readAsText(file); ev.target.value='';
@@ -1109,9 +1181,22 @@ function render(){
   save();
 }
 
-load();
+// ── PATCH render ─────────────────────────────────────────
+const _render = render;
+render = function(){ _render(); save(); };
+
+// ── INIT ─────────────────────────────────────────────────
+onAuthStateChanged(auth, user => {
+  currentUser = user;
+  updateAuthUI(user);
+  if(user){
+    subscribeToData(user.uid);
+  } else {
+    accounts=[]; goal={amt:0,date:'',monthly:0};
+    _render();
+  }
+});
 applyDefaultRate();
-render();
 </script>
 </body>
 </html>
