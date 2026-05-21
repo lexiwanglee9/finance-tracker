@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>財富自由進度日誌</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Kaisei+Opti:wght@400;500;700&family=Noto+Sans+TC:wght@300;400;500&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --bg:      #fdf9f5;
+  --bg2:     #faf5ef;
+  --bg3:     #f5ede4;
+  --bg4:     #f0e4d8;
+  --border:  rgba(190,150,120,.10);
+  --border2: rgba(190,150,120,.20);
+  --border3: rgba(190,150,120,.35);
+  --text:    #5c3d2e;
+  --text2:   #9a7060;
+  --text3:   #c4a090;
+  --rose:    #d4878e;
+  --rose2:   #e8adb3;
+  --rose3:   #f5d5d8;
+  --rose-bg: rgba(212,135,142,.10);
+  --peach:   #e8976a;
+  --peach2:  #f5c4a0;
+  --peach-bg:rgba(232,151,106,.10);
+  --sage:    #7aaa8a;
+  --sage2:   #aacdb8;
+  --sage-bg: rgba(122,170,138,.10);
+  --sky:     #7aaac8;
+  --sky2:    #aacce0;
+  --sky-bg:  rgba(122,170,200,.10);
+  --lavender:#9a8ac8;
+  --lav2:    #c4b8e4;
+  --lav-bg:  rgba(154,138,200,.10);
+  --honey:   #c8a050;
+  --honey2:  #e4c880;
+  --honey-bg:rgba(200,160,80,.10);
+
+  /* category palette — warm pastel */
+  --c-deposit: #7aaac8;
+  --c-stock:   #c8a050;
+  --c-fund:    #7aaa8a;
+  --c-bond:    #9a8ac8;
+  --c-crypto:  #e8976a;
+  --c-pension: #d4878e;
+  --c-other:   #a09080;
+
+  --f-display:'Kaisei Opti', serif;
+  --f-body:   'Noto Sans TC', sans-serif;
+  --f-mono:   'DM Mono', monospace;
+  --r: 16px; --r-sm: 10px; --r-xs: 7px;
+  --shadow: 0 2px 16px rgba(160,100,80,.07);
+  --shadow2:0 4px 28px rgba(160,100,80,.12);
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--f-body);background:var(--bg);color:var(--text);min-height:100vh;font-size:14px}
+
+/* subtle dot pattern */
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:radial-gradient(circle,rgba(190,150,120,.12) 1px,transparent 1px);
+  background-size:28px 28px;
+}
+
+.wrap{max-width:980px;margin:0 auto;padding:0 28px 100px;position:relative;z-index:1}
+
+/* ── MASTHEAD ── */
+.masthead{
+  padding:48px 0 28px;
+  border-bottom:1px solid var(--border2);
+  margin-bottom:36px;
+  position:relative;
+}
+.masthead::before{
+  content:'WEALTH';
+  position:absolute;right:-8px;top:16px;
+  font-family:var(--f-display);font-size:130px;font-weight:700;
+  color:rgba(212,135,142,.05);line-height:1;pointer-events:none;letter-spacing:4px;
+}
+.masthead-inner{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.masthead-text h1{
+  font-family:var(--f-display);font-size:44px;font-weight:700;
+  letter-spacing:1px;color:var(--text);line-height:1.15;
+}
+.masthead-text h1 em{color:var(--rose);font-style:italic}
+.masthead-text p{font-size:12px;color:var(--text3);margin-top:8px;letter-spacing:.06em}
+.masthead-actions{display:flex;gap:8px;flex-wrap:wrap}
+
+/* ── BUTTONS ── */
+.btn{height:36px;padding:0 16px;border-radius:99px;cursor:pointer;
+  font-size:12px;font-family:var(--f-body);
+  display:inline-flex;align-items:center;gap:6px;
+  border:1px solid var(--border2);background:#fff;color:var(--text2);
+  transition:all .18s;white-space:nowrap;letter-spacing:.02em;
+  box-shadow:var(--shadow)}
+.btn:hover{border-color:var(--border3);color:var(--text);box-shadow:var(--shadow2)}
+.btn-rose{border-color:var(--rose2);color:var(--rose);background:var(--rose-bg)}
+.btn-rose:hover{background:rgba(212,135,142,.18);color:var(--rose)}
+.btn-sage{border-color:var(--sage2);color:var(--sage);background:var(--sage-bg)}
+.btn-sage:hover{background:rgba(122,170,138,.18)}
+.btn-honey{border-color:var(--honey2);color:var(--honey);background:var(--honey-bg)}
+.btn-honey:hover{background:rgba(200,160,80,.18)}
+.btn-sm{height:28px;padding:0 12px;font-size:11px}
+.btn-ghost{border-color:var(--border);color:var(--text3);box-shadow:none}
+.btn-ghost:hover{border-color:var(--border2);color:var(--text2)}
+label.btn{cursor:pointer}
+
+/* ── SEC LABEL ── */
+.sec{margin-bottom:14px;display:flex;align-items:center;gap:12px}
+.sec-label{
+  font-family:var(--f-display);font-size:20px;font-weight:700;
+  letter-spacing:.5px;color:var(--text);white-space:nowrap;
+  display:flex;align-items:center;gap:7px;
+}
+.sec-label::before{content:'🌸';font-size:14px}
+.sec-line{flex:1;height:1px;background:var(--border2)}
+
+/* ── PANELS (shared base) ── */
+.panel-base{
+  background:#fff;border:1px solid var(--border2);
+  border-radius:var(--r);padding:24px 28px;margin-bottom:14px;
+  box-shadow:var(--shadow);position:relative;overflow:hidden;
+}
+.panel-base::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  border-radius:var(--r) var(--r) 0 0;
+}
+.panel-rose::before{background:linear-gradient(90deg,var(--rose),var(--peach2),transparent)}
+.panel-sage::before{background:linear-gradient(90deg,var(--sage),var(--sky2),transparent)}
+.panel-honey::before{background:linear-gradient(90deg,var(--honey),var(--rose2),transparent)}
+.panel-sky::before{background:linear-gradient(90deg,var(--sky),var(--lav2),transparent)}
+.panel-lav::before{background:linear-gradient(90deg,var(--lavender),var(--rose2),transparent)}
+
+/* ── GOAL PANEL ── */
+.goal-grid{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:14px;align-items:end}
+.g-field label{display:block;font-size:11px;color:var(--text3);margin-bottom:5px;font-weight:500;letter-spacing:.04em}
+.g-field input{
+  width:100%;height:40px;padding:0 14px;
+  background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r-sm);
+  color:var(--text);font-size:13px;font-family:var(--f-body);outline:none;
+  transition:border-color .18s,box-shadow .18s;
+}
+.g-field input:focus{border-color:var(--rose2);box-shadow:0 0 0 3px var(--rose-bg)}
+.g-field input::placeholder{color:var(--text3)}
+.g-field input[type=date]::-webkit-calendar-picker-indicator{opacity:.4;cursor:pointer}
+
+/* ── FREEDOM DASHBOARD ── */
+.freedom-dash{
+  background:#fff;border:1px solid var(--border2);
+  border-radius:var(--r);padding:28px 32px;margin-bottom:14px;
+  box-shadow:var(--shadow);position:relative;overflow:hidden;
+}
+.freedom-dash::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse at 85% 50%,rgba(212,135,142,.06),transparent 60%);
+}
+.freedom-dash::after{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:var(--r) var(--r) 0 0;
+  background:linear-gradient(90deg,var(--rose),var(--peach2),transparent);
+}
+
+.fd-layout{display:flex;gap:32px;align-items:center;flex-wrap:wrap;margin-bottom:24px}
+.fd-ring-wrap{position:relative;flex-shrink:0}
+.fd-ring-wrap canvas{display:block}
+.fd-ring-center{
+  position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;text-align:center;pointer-events:none;
+}
+.fd-ring-pct{font-family:var(--f-display);font-size:34px;font-weight:700;
+  letter-spacing:.5px;color:var(--rose);line-height:1}
+.fd-ring-label{font-size:10px;color:var(--text3);letter-spacing:.06em;margin-top:3px}
+
+.fd-stats{flex:1;min-width:200px}
+.fd-big-label{font-size:11px;color:var(--text3);letter-spacing:.06em;margin-bottom:4px;font-weight:500}
+.fd-big-val{font-family:var(--f-display);font-size:42px;font-weight:700;
+  letter-spacing:.5px;color:var(--sage);line-height:1;margin-bottom:2px}
+.fd-big-sub{font-size:12px;color:var(--text3)}
+.fd-row{display:flex;gap:24px;margin-top:18px;flex-wrap:wrap}
+.fd-item-label{font-size:11px;color:var(--text3);letter-spacing:.04em;margin-bottom:3px;font-weight:500}
+.fd-item-val{font-family:var(--f-mono);font-size:15px;color:var(--text);font-weight:400}
+.fd-item-val.rose{color:var(--rose)}
+.fd-item-val.sage{color:var(--sage)}
+.fd-item-val.peach{color:var(--peach)}
+.fd-item-val.red{color:#c8504a}
+
+/* countdown bar */
+.cd-wrap{margin-top:4px}
+.cd-labels{display:flex;justify-content:space-between;font-size:11px;color:var(--text3);margin-bottom:7px}
+.cd-track{height:10px;background:var(--bg3);border-radius:99px;overflow:hidden;position:relative}
+.cd-fill{height:100%;border-radius:99px;
+  background:linear-gradient(90deg,var(--rose2),var(--peach2));
+  transition:width .9s cubic-bezier(.4,0,.2,1)}
+.cd-foot{font-size:11px;color:var(--text3);margin-top:7px;display:flex;gap:16px;flex-wrap:wrap}
+
+/* ── PER-ACCOUNT PROGRESS TABLE ── */
+.acc-row{
+  display:grid;
+  grid-template-columns:180px 1fr 120px 130px 96px;
+  align-items:center;gap:14px;
+  background:#fff;border:1px solid var(--border);
+  border-radius:var(--r-sm);padding:14px 18px;margin-bottom:8px;
+  transition:border-color .18s,box-shadow .18s;
+  box-shadow:var(--shadow);
+}
+.acc-row:hover{border-color:var(--border2);box-shadow:var(--shadow2)}
+.acc-name{font-size:14px;font-weight:500;color:var(--text)}
+.acc-type{font-size:10px;padding:2px 9px;border-radius:99px;font-weight:500;
+  display:inline-block;margin-top:3px;letter-spacing:.02em}
+.acc-bar-wrap{display:flex;flex-direction:column;gap:5px}
+.acc-bar-track{height:7px;background:var(--bg3);border-radius:99px;overflow:hidden}
+.acc-bar-fill{height:100%;border-radius:99px;transition:width .6s cubic-bezier(.4,0,.2,1)}
+.acc-bar-pct{font-size:10px;color:var(--text3);font-family:var(--f-mono)}
+.acc-balance{font-family:var(--f-mono);font-size:14px;color:var(--text);text-align:right}
+.acc-balance-label{font-size:10px;color:var(--text3);text-align:right;margin-top:2px}
+.acc-target{font-size:12px;color:var(--text3);text-align:right}
+.acc-target strong{display:block;font-size:13px;color:var(--text2)}
+.acc-eta{font-size:11px;color:var(--text3);font-family:var(--f-mono);text-align:right;line-height:1.5}
+.acc-eta strong{color:var(--honey);font-size:15px}
+.reached-tag{display:inline-flex;align-items:center;gap:4px;background:var(--sage-bg);
+  color:var(--sage);font-size:10px;padding:2px 9px;border-radius:99px;
+  border:1px solid var(--sage2);font-weight:500}
+
+/* ── MONTH NAV ── */
+.month-nav{display:flex;align-items:center;gap:10px;margin-bottom:20px;flex-wrap:wrap}
+.month-badge{font-family:var(--f-display);font-size:28px;font-weight:700;
+  letter-spacing:.5px;color:var(--text)}
+.nav-btn{width:32px;height:32px;border-radius:50%;border:1px solid var(--border2);
+  background:#fff;cursor:pointer;font-size:16px;color:var(--text2);
+  display:flex;align-items:center;justify-content:center;transition:all .18s;
+  box-shadow:var(--shadow)}
+.nav-btn:hover{border-color:var(--rose2);color:var(--rose)}
+.month-picker input[type=month]{
+  background:#fff;border:1px solid var(--border2);border-radius:var(--r-sm);
+  padding:4px 12px;font-size:12px;color:var(--text2);outline:none;
+  font-family:var(--f-body);transition:border-color .18s;box-shadow:var(--shadow)}
+
+/* ── ACCOUNT CARDS (monthly) ── */
+.acc-card{
+  background:#fff;border:1px solid var(--border);
+  border-radius:var(--r-sm);padding:18px 22px;margin-bottom:12px;
+  transition:border-color .18s,box-shadow .18s;box-shadow:var(--shadow);
+}
+.acc-card:hover{border-color:var(--border2);box-shadow:var(--shadow2)}
+.acd-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px}
+.acd-left{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.acd-name{font-size:15px;font-weight:500;color:var(--text)}
+.acd-badge{font-size:11px;padding:2px 10px;border-radius:99px;font-weight:500;letter-spacing:.02em}
+.acd-right{display:flex;align-items:center;gap:12px}
+.acd-bal{font-family:var(--f-mono);font-size:15px;color:var(--sage)}
+.acd-del{background:none;border:none;cursor:pointer;color:var(--text3);
+  font-size:15px;padding:3px 5px;border-radius:6px;transition:all .18s}
+.acd-del:hover{color:#c8504a;background:rgba(200,80,74,.08)}
+
+.dep-row{
+  display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+  background:var(--bg2);border-radius:var(--r-sm);padding:10px 14px;margin-bottom:10px;
+  border:1px solid var(--border);
+}
+.dep-label{font-size:12px;color:var(--text3);white-space:nowrap;font-weight:500}
+.dep-input{width:140px;height:34px;padding:0 10px;
+  background:#fff;border:1px solid var(--border2);border-radius:var(--r-xs);
+  font-family:var(--f-mono);font-size:13px;color:var(--text);outline:none;transition:border-color .18s}
+.dep-input:focus{border-color:var(--rose2)}
+.dep-input::placeholder{color:var(--text3)}
+.dep-default{font-size:11px;color:var(--text3);font-family:var(--f-mono);white-space:nowrap}
+.dep-actions{margin-left:auto;display:flex;gap:6px}
+.dep-recorded{display:inline-flex;align-items:center;gap:5px;
+  background:var(--sage-bg);color:var(--sage);font-size:12px;
+  padding:2px 10px;border-radius:99px;border:1px solid var(--sage2)}
+
+.acd-meta{display:flex;gap:16px;font-size:11px;color:var(--text3);
+  font-family:var(--f-mono);flex-wrap:wrap}
+
+/* dot history */
+.dot-row{display:flex;gap:4px;flex-wrap:wrap;margin-top:10px}
+.dot{width:22px;height:22px;border-radius:7px;display:flex;align-items:center;
+  justify-content:center;font-size:9px;cursor:default;
+  transition:transform .12s;position:relative}
+.dot:hover{transform:scale(1.2)}
+.dot.done{background:var(--sage);color:#fff}
+.dot.skip{background:var(--bg3);color:var(--text3)}
+.dot.today{background:var(--rose-bg);color:var(--rose);border:1px solid var(--rose2)}
+.dot.today.done{background:var(--sage);color:#fff;border-color:var(--sage)}
+.dot[data-tip]:hover::after{
+  content:attr(data-tip);position:absolute;bottom:26px;left:50%;transform:translateX(-50%);
+  background:var(--text);color:#fff;
+  font-size:10px;padding:4px 9px;border-radius:var(--r-xs);white-space:nowrap;
+  pointer-events:none;z-index:10;font-family:var(--f-mono)}
+
+/* ── ADD FORM ── */
+.add-form{
+  background:#fff;border:1px dashed var(--border2);
+  border-radius:var(--r);padding:20px 24px;margin-bottom:28px;
+  box-shadow:var(--shadow);
+}
+.form-grid{display:grid;grid-template-columns:1.6fr 1fr 1.1fr 1.1fr 0.7fr auto;gap:10px;align-items:end}
+.f-field label{display:block;font-size:11px;color:var(--text3);margin-bottom:5px;font-weight:500;letter-spacing:.04em}
+.f-field input,.f-field select{
+  width:100%;height:38px;padding:0 12px;
+  background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r-xs);
+  color:var(--text);font-size:13px;font-family:var(--f-body);outline:none;
+  transition:border-color .18s}
+.f-field input:focus,.f-field select:focus{border-color:var(--rose2)}
+.f-field input::placeholder{color:var(--text3)}
+.f-field select option{background:var(--bg2)}
+
+/* ── HISTORY MODAL ── */
+.modal-bg{position:fixed;inset:0;background:rgba(92,61,46,.35);z-index:200;
+  display:flex;align-items:center;justify-content:center;padding:20px;
+  opacity:0;pointer-events:none;transition:opacity .2s;backdrop-filter:blur(4px)}
+.modal-bg.open{opacity:1;pointer-events:all}
+.modal{background:#fff;border:1px solid var(--border2);border-radius:var(--r);
+  padding:28px;max-width:600px;width:100%;max-height:80vh;overflow-y:auto;
+  box-shadow:var(--shadow2);
+  transform:translateY(14px);transition:transform .2s}
+.modal-bg.open .modal{transform:none}
+.modal-title{font-family:var(--f-display);font-size:26px;font-weight:700;
+  margin-bottom:16px;color:var(--text)}
+.hist-group{margin-bottom:16px;border-bottom:1px solid var(--border);padding-bottom:14px}
+.hist-group:last-child{border-bottom:none}
+.hist-month{font-family:var(--f-mono);font-size:11px;color:var(--text3);
+  letter-spacing:.08em;margin-bottom:8px}
+.hist-item{display:flex;justify-content:space-between;align-items:center;
+  font-size:13px;padding:4px 0 4px 8px}
+.hist-item-name{color:var(--text2);display:flex;align-items:center;gap:8px}
+.hist-item-amt{font-family:var(--f-mono);color:var(--sage)}
+.hist-total{display:flex;justify-content:space-between;font-size:13px;
+  margin-top:6px;padding-top:6px;border-top:1px solid var(--border)}
+.hist-total-amt{font-family:var(--f-mono);color:var(--honey)}
+
+/* ── TOAST ── */
+#saveToast{
+  position:fixed;bottom:28px;right:28px;z-index:500;
+  background:#fff;color:var(--sage);
+  border:1px solid var(--sage2);
+  font-size:12px;padding:10px 18px;border-radius:99px;
+  display:none;align-items:center;gap:8px;
+  box-shadow:var(--shadow2);
+  font-family:var(--f-mono);letter-spacing:.04em;
+}
+
+/* ── EMPTY ── */
+.empty{text-align:center;padding:2rem;color:var(--text3);font-size:13px}
+
+/* ── FORECAST PANEL ── */
+.forecast-panel{
+  background:#fff;border:1px solid var(--border2);
+  border-radius:var(--r);padding:24px 28px;margin-bottom:14px;
+  box-shadow:var(--shadow);position:relative;overflow:hidden;
+}
+.forecast-panel::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:var(--r) var(--r) 0 0;
+  background:linear-gradient(90deg,var(--sky),var(--lav2),transparent);
+}
+.forecast-panel::after{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse at 15% 80%,rgba(154,138,200,.05),transparent 55%);
+}
+.fc-top{display:flex;gap:24px;align-items:flex-start;flex-wrap:wrap}
+.fc-chart-wrap{flex:1;min-width:260px;height:240px;position:relative}
+.fc-chart-wrap canvas{position:absolute;inset:0;width:100%!important;height:100%!important}
+.fc-sidebar{display:flex;flex-direction:column;gap:14px;min-width:180px;padding-top:2px}
+.fc-legend{display:flex;flex-direction:column;gap:7px}
+.fc-legend-item{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text2)}
+.fc-legend-line{width:20px;height:2.5px;border-radius:2px;flex-shrink:0}
+.fc-legend-dash{width:20px;height:0;border-top:2px dashed;flex-shrink:0;opacity:.5}
+.fc-legend-sub{font-size:10px;color:var(--text3);margin-left:28px;font-family:var(--f-mono)}
+.fc-scenarios{display:flex;flex-direction:column;gap:8px}
+.fc-card{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:var(--r-xs);padding:12px 14px;transition:border-color .18s,box-shadow .18s;
+}
+.fc-card:hover{border-color:var(--border2);box-shadow:var(--shadow)}
+.fc-card-label{font-size:10px;color:var(--text3);letter-spacing:.06em;margin-bottom:3px;font-weight:500}
+.fc-card-val{font-family:var(--f-mono);font-size:15px;font-weight:400;margin-bottom:2px}
+.fc-card-sub{font-size:11px;color:var(--text3)}
+.fc-card.highlight{border-color:var(--rose2);background:var(--rose-bg)}
+.fc-card.highlight .fc-card-label{color:var(--rose)}
+
+/* ── ADVICE PANEL ── */
+.advice-panel{
+  background:#fff;border:1px solid var(--border2);
+  border-radius:var(--r);padding:24px 28px;margin-bottom:14px;
+  box-shadow:var(--shadow);position:relative;overflow:hidden;
+}
+.advice-panel::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:var(--r) var(--r) 0 0;
+  background:linear-gradient(90deg,var(--sage),var(--peach2),transparent);
+}
+.advice-panel::after{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse at 90% 20%,rgba(122,170,138,.06),transparent 55%);
+}
+.advice-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:18px}
+.advice-card{
+  background:var(--bg2);border:1px solid var(--border);border-radius:var(--r-sm);
+  padding:16px 18px;position:relative;overflow:hidden;transition:border-color .18s,box-shadow .18s;
+}
+.advice-card:hover{border-color:var(--border2);box-shadow:var(--shadow)}
+.advice-card-icon{font-size:20px;margin-bottom:8px;display:block}
+.advice-card-title{font-size:11px;color:var(--text3);letter-spacing:.04em;margin-bottom:6px;font-weight:500}
+.advice-card-val{font-family:var(--f-mono);font-size:18px;margin-bottom:4px}
+.advice-card-desc{font-size:12px;color:var(--text2);line-height:1.6}
+.advice-card-desc strong{color:var(--text)}
+.advice-card-save{color:var(--sage)}
+.advice-tip{
+  background:var(--bg2);border-left:3px solid var(--rose2);
+  border-radius:0 var(--r-xs) var(--r-xs) 0;padding:13px 16px;
+  font-size:12px;color:var(--text2);line-height:1.75;
+}
+.advice-tip strong{color:var(--rose)}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.acc-card,.acc-row,.fc-card,.advice-card{animation:fadeUp .24s ease both}
+
+/* ── RESPONSIVE ── */
+@media(max-width:720px){
+  .form-grid{grid-template-columns:1fr 1fr}
+  .goal-grid{grid-template-columns:1fr 1fr}
+  .acc-row{grid-template-columns:1fr 1fr}
+  .masthead-text h1{font-size:32px}
+  .fd-big-val{font-size:30px}
+}
+@media(max-width:480px){
+  .wrap{padding:0 16px 80px}
+  .form-grid,.goal-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- MASTHEAD -->
+<header class="masthead">
+  <div class="masthead-inner">
+    <div class="masthead-text">
+      <h1>財富自由<em>進度日誌</em></h1>
+      <p>逐月記錄存款 · 追蹤各帳戶成長 · 倒數財富自由目標</p>
+    </div>
+    <div class="masthead-actions">
+      <button class="btn" onclick="openHistory()">📋 存款歷史</button>
+      <button class="btn btn-honey" onclick="exportData()">⬇ 匯出備份</button>
+      <label class="btn">⬆ 匯入備份<input type="file" accept=".json" onchange="importData(event)" style="display:none"/></label>
+      <button class="btn" onclick="loadDemo()">✦ 載入範例</button>
+      <button class="btn btn-ghost" onclick="clearAll()">✕ 清除全部</button>
+    </div>
+  </div>
+</header>
+
+<!-- ① 財富自由目標設定 -->
+<div class="sec"><span class="sec-label">財富自由目標</span><div class="sec-line"></div></div>
+<div class="panel-base panel-rose">
+  <div class="goal-grid">
+    <div class="g-field">
+      <label>財富自由目標金額 (NT$)</label>
+      <input type="number" id="goalAmt" placeholder="20000000" min="0" oninput="saveGoal()"/>
+    </div>
+    <div class="g-field">
+      <label>預計實現日期</label>
+      <input type="date" id="goalDate" oninput="saveGoal()"/>
+    </div>
+    <div class="g-field">
+      <label>每月預計存入 (NT$)</label>
+      <input type="number" id="goalMonthly" placeholder="50000" min="0" oninput="saveGoal()"/>
+    </div>
+    <div class="g-field">
+      <label>&nbsp;</label>
+      <button class="btn btn-sage" onclick="render()">更新目標</button>
+    </div>
+  </div>
+</div>
+
+<!-- ② 財富自由 Dashboard -->
+<div class="freedom-dash" id="freedomDash">
+  <div class="fd-layout">
+    <div class="fd-ring-wrap">
+      <canvas id="ringCanvas" width="150" height="150" role="img" aria-label="存款進度環形圖"></canvas>
+      <div class="fd-ring-center">
+        <div class="fd-ring-pct" id="ring-pct">0%</div>
+        <div class="fd-ring-label">PROGRESS</div>
+      </div>
+    </div>
+    <div class="fd-stats">
+      <div class="fd-big-label">TOTAL SAVINGS</div>
+      <div class="fd-big-val" id="fd-total">NT$0</div>
+      <div class="fd-big-sub">目標 <span id="fd-goal">—</span></div>
+      <div class="fd-row">
+        <div class="fd-item">
+          <div class="fd-item-label">距離目標</div>
+          <div class="fd-item-val rose" id="fd-gap">—</div>
+        </div>
+        <div class="fd-item">
+          <div class="fd-item-label">預計達成</div>
+          <div class="fd-item-val" id="fd-est">—</div>
+        </div>
+        <div class="fd-item">
+          <div class="fd-item-label">目標日期</div>
+          <div class="fd-item-val" id="fd-target-date">—</div>
+        </div>
+        <div class="fd-item">
+          <div class="fd-item-label">進度超前／落後</div>
+          <div class="fd-item-val" id="fd-diff">—</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="cd-wrap">
+    <div class="cd-labels">
+      <span id="cd-start">開始</span>
+      <span id="cd-label-center">時間進度</span>
+      <span id="cd-end">目標日期</span>
+    </div>
+    <div class="cd-track">
+      <div class="cd-fill" id="cd-fill" style="width:0%"></div>
+    </div>
+    <div class="cd-foot" id="cd-foot">設定目標金額與預計日期後顯示倒數</div>
+  </div>
+</div>
+
+<!-- ③ 各帳戶進度表 -->
+<div class="sec" style="margin-top:32px"><span class="sec-label">各帳戶倒數</span><div class="sec-line"></div></div>
+<div id="accProgressTable"><div class="empty">新增帳戶後顯示各項進度</div></div>
+
+<!-- ④ 月份存款紀錄 -->
+<div class="sec" style="margin-top:32px"><span class="sec-label">本月存款紀錄</span><div class="sec-line"></div></div>
+<div class="month-nav">
+  <button class="nav-btn" onclick="changeMonth(-1)">‹</button>
+  <span class="month-badge" id="monthBadge"></span>
+  <button class="nav-btn" onclick="changeMonth(1)">›</button>
+  <button class="btn btn-sm" onclick="goToday()">今天</button>
+  <button class="btn btn-sm btn-sage" onclick="applyAllDefault()">全部套用預設</button>
+  <div class="month-picker">
+    <input type="month" id="monthPicker" onchange="jumpMonth(this.value)"/>
+  </div>
+</div>
+<div id="accCards"><div class="empty">新增帳戶後，可在此記錄每月存款</div></div>
+
+<!-- ⑤ 財富自由預測 -->
+<div style="margin-top:32px">
+  <div class="sec"><span class="sec-label">財富自由預測</span><div class="sec-line"></div></div>
+  <div class="forecast-panel">
+    <div class="fc-top">
+      <div class="fc-chart-wrap">
+        <canvas id="fcChart" role="img" aria-label="資產成長預測折線圖：三條情境線與目標線"></canvas>
+      </div>
+      <div class="fc-sidebar">
+        <div class="fc-legend" id="fcLegend"></div>
+        <div class="fc-scenarios" id="fcScenarios"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ⑥ 加速建議 -->
+<div style="margin-top:32px">
+  <div class="sec"><span class="sec-label">加速建議</span><div class="sec-line"></div></div>
+  <div class="advice-panel" id="advicePanel">
+    <div class="empty">設定目標金額與每月存入後，自動顯示加速建議</div>
+  </div>
+</div>
+
+<!-- ⑦ 新增帳戶 -->
+<div style="margin-top:32px">
+  <div class="sec"><span class="sec-label">新增存款帳戶</span><div class="sec-line"></div></div>
+  <div class="add-form">
+    <div class="form-grid">
+      <div class="f-field"><label>帳戶名稱</label><input type="text" id="aName" placeholder="例：台積電持股"/></div>
+      <div class="f-field"><label>類型</label>
+        <select id="aType" onchange="applyDefaultRate()">
+          <option value="savings">活存</option>
+          <option value="deposit">定存</option>
+          <option value="stock">股票</option>
+          <option value="ustock">美股</option>
+          <option value="etf">ETF</option>
+          <option value="fund">基金</option>
+          <option value="bond">債券</option>
+          <option value="usd">美金</option>
+          <option value="crypto">加密貨幣</option>
+          <option value="pension">退休金</option>
+          <option value="other">其他</option>
+        </select>
+      </div>
+      <div class="f-field"><label>目前餘額 (NT$)</label><input type="number" id="aBalance" placeholder="0" min="0"/></div>
+      <div class="f-field"><label>每月預計存入 (NT$)</label><input type="number" id="aMonthly" placeholder="10000" min="0"/></div>
+      <div class="f-field"><label>年化報酬率 (%)</label><input type="number" id="aRate" placeholder="5" step="0.1" min="0" max="100"/></div>
+      <div class="f-field"><label>&nbsp;</label><button class="btn btn-sage" onclick="addAccount()">＋ 新增</button></div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /wrap -->
+
+<!-- History Modal -->
+<div class="modal-bg" id="histModal" onclick="if(event.target===this)closeHistory()">
+  <div class="modal">
+    <div class="modal-title">🌸 存款歷史紀錄</div>
+    <div id="histContent"><p style="color:var(--text3);font-size:13px">尚無紀錄</p></div>
+    <div style="margin-top:20px;text-align:right"><button class="btn" onclick="closeHistory()">關閉</button></div>
+  </div>
+</div>
+
+<div id="saveToast">✓ 已自動儲存</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+let accounts = [];
+let nextId = 1;
+let viewYear  = new Date().getFullYear();
+let viewMonth = new Date().getMonth() + 1;
+let goal = { amt: 0, date: '', monthly: 0 };
+const LS_KEY = 'wealthlog_v1';
+
+const TC = {
+  savings: { label:'活存',     bg:'rgba(100,190,170,.15)', color:'#5ab8a8', fill:'#5ab8a8' },
+  deposit: { label:'定存',     bg:'rgba(122,170,200,.15)', color:'#7aaac8', fill:'#7aaac8' },
+  stock:   { label:'股票',     bg:'rgba(200,160,80,.15)',  color:'#c8a050', fill:'#c8a050' },
+  ustock:  { label:'美股',     bg:'rgba(220,130,80,.15)',  color:'#dc8250', fill:'#dc8250' },
+  etf:     { label:'ETF',      bg:'rgba(140,180,120,.15)', color:'#7ab060', fill:'#7ab060' },
+  fund:    { label:'基金',     bg:'rgba(122,170,138,.15)', color:'#7aaa8a', fill:'#7aaa8a' },
+  bond:    { label:'債券',     bg:'rgba(154,138,200,.15)', color:'#9a8ac8', fill:'#9a8ac8' },
+  usd:     { label:'美金',     bg:'rgba(80,170,140,.15)',  color:'#50aa8c', fill:'#50aa8c' },
+  crypto:  { label:'加密貨幣', bg:'rgba(232,151,106,.15)', color:'#e8976a', fill:'#e8976a' },
+  pension: { label:'退休金',   bg:'rgba(212,135,142,.15)', color:'#d4878e', fill:'#d4878e' },
+  other:   { label:'其他',     bg:'rgba(160,144,128,.15)', color:'#a09080', fill:'#a09080' },
+};
+
+const fmt  = n => 'NT$' + Math.round(Math.max(0,n)).toLocaleString('zh-TW');
+const ym   = (y,m) => y + '-' + (m < 10 ? '0'+m : m);
+const ymLb = k => { const [y,m]=k.split('-'); return y+'年'+parseInt(m)+'月'; };
+const currentKey = () => ym(viewYear, viewMonth);
+
+// default annual return rate per type (%)
+const DEFAULT_RATE = {
+  savings:0.8, deposit:1.5, stock:8, ustock:10, etf:7,
+  fund:6, bond:3, usd:2, crypto:20, pension:3, other:3
+};
+
+function applyDefaultRate(){
+  const type=document.getElementById('aType').value;
+  const rateEl=document.getElementById('aRate');
+  if(rateEl&&(!rateEl.value||rateEl.dataset.auto==='1')){
+    rateEl.value=DEFAULT_RATE[type]||5;
+    rateEl.dataset.auto='1';
+  }
+}
+
+function totalDeposited(acc){ return Object.values(acc.deposits).reduce((s,v)=>s+v,0); }
+// compound-aware current balance: apply monthly rate to each deposit from deposit date to now
+function currentBalance(acc){
+  const mr=(acc.rate||0)/100/12;
+  const now=new Date(); const nowKey=ym(now.getFullYear(),now.getMonth()+1);
+  let bal=acc.balance;
+  // grow initial balance from account creation (we use first deposit month or now)
+  const depKeys=Object.keys(acc.deposits).sort();
+  const startKey=depKeys[0]||nowKey;
+  const [sy,sm]=startKey.split('-').map(Number);
+  const [ny,nm]=nowKey.split('-').map(Number);
+  const sinceMonths=Math.max(0,(ny-sy)*12+(nm-sm));
+  if(mr>0) bal=bal*Math.pow(1+mr,sinceMonths);
+  else bal=bal; // no compound on 0% rate
+  // add each deposit grown to now
+  for(const [k,amt] of Object.entries(acc.deposits)){
+    const [dy,dm]=k.split('-').map(Number);
+    const age=Math.max(0,(ny-dy)*12+(nm-dm));
+    bal+=mr>0?amt*Math.pow(1+mr,age):amt;
+  }
+  return bal;
+}
+function currentBalanceRaw(acc){ return acc.balance+totalDeposited(acc); }
+function totalSavings(){ return accounts.reduce((s,a)=>s+currentBalance(a),0); }
+function totalSavingsRaw(){ return accounts.reduce((s,a)=>s+currentBalanceRaw(a),0); }
+function progressPct(){ if(!goal.amt||goal.amt<=0)return 0; return Math.min(100,totalSavings()/goal.amt*100); }
+
+// weighted average annual rate across all accounts by current balance
+function weightedRate(){
+  const total=totalSavings()||1;
+  return accounts.reduce((s,a)=>s+(currentBalance(a)/total)*(a.rate||0),0);
+}
+
+// compound months-to-reach using FV of annuity formula
+// FV = P*(1+r)^n + pmt*((1+r)^n - 1)/r  solve for n numerically
+function monthsToReachCompound(startAmt,monthlyAmt,goalAmt,annualRate){
+  if(!goalAmt||goalAmt<=0)return null;
+  if(startAmt>=goalAmt)return 0;
+  const mr=annualRate/100/12;
+  if(mr<=0){
+    // linear fallback
+    if(!monthlyAmt||monthlyAmt<=0)return null;
+    return Math.ceil((goalAmt-startAmt)/monthlyAmt);
+  }
+  // iterate month by month (max 600 months = 50 years)
+  let bal=startAmt;
+  for(let m=1;m<=600;m++){
+    bal=bal*(1+mr)+(monthlyAmt||0);
+    if(bal>=goalAmt)return m;
+  }
+  return null;
+}
+
+function estMonthsToFreedom(){
+  const total=totalSavings();
+  if(total>=(goal.amt||0)&&goal.amt>0)return 0;
+  const monthly=goal.monthly||accounts.reduce((s,a)=>s+a.monthlyTarget,0);
+  if(!goal.amt)return null;
+  return monthsToReachCompound(total,monthly,goal.amt,weightedRate());
+}
+
+function addMonths(date,n){ const d=new Date(date); d.setMonth(d.getMonth()+n); return d; }
+function fmtDate(d){ if(!d)return '—'; return d.getFullYear()+'年'+(d.getMonth()+1)+'月'; }
+function monthDiff(d1,d2){ return (d2.getFullYear()-d1.getFullYear())*12+(d2.getMonth()-d1.getMonth()); }
+
+function changeMonth(d){
+  viewMonth+=d;
+  if(viewMonth>12){viewMonth=1;viewYear++;} if(viewMonth<1){viewMonth=12;viewYear--;}
+  render();
+}
+function goToday(){ const n=new Date(); viewYear=n.getFullYear(); viewMonth=n.getMonth()+1; render(); }
+function jumpMonth(val){ if(!val)return; const[y,m]=val.split('-').map(Number); viewYear=y;viewMonth=m; render(); }
+
+function recordDeposit(id,key,val){
+  const a=accounts.find(x=>x.id===id); if(!a)return;
+  const amt=parseFloat(val);
+  if(isNaN(amt)||val==='')delete a.deposits[key]; else a.deposits[key]=Math.max(0,amt);
+  render();
+}
+function applyDefault(id){ const a=accounts.find(x=>x.id===id); if(!a)return; a.deposits[currentKey()]=a.monthlyTarget; render(); }
+function clearDep(id){ const a=accounts.find(x=>x.id===id); if(!a)return; delete a.deposits[currentKey()]; render(); }
+function applyAllDefault(){ const key=currentKey(); accounts.forEach(a=>{a.deposits[key]=a.monthlyTarget;}); render(); }
+
+function updateRate(id,val){
+  const a=accounts.find(x=>x.id===id); if(!a)return;
+  const r=parseFloat(val); a.rate=isNaN(r)?0:Math.min(100,Math.max(0,r)); render();
+}
+
+function addAccount(){
+  const name=document.getElementById('aName').value.trim();
+  const type=document.getElementById('aType').value;
+  const bal=parseFloat(document.getElementById('aBalance').value)||0;
+  const mon=parseFloat(document.getElementById('aMonthly').value);
+  const rate=parseFloat(document.getElementById('aRate').value);
+  if(!name||isNaN(mon)||mon<0){alert('請填寫名稱與每月預計存入金額');return;}
+  accounts.push({id:nextId++,name,type,balance:bal,monthlyTarget:mon,rate:isNaN(rate)?DEFAULT_RATE[type]||3:rate,deposits:{}});
+  ['aName','aBalance','aMonthly'].forEach(id=>document.getElementById(id).value='');
+  const rateEl=document.getElementById('aRate'); rateEl.value=''; rateEl.dataset.auto='0';
+  applyDefaultRate();
+  render();
+}
+function removeAccount(id){ if(!confirm('確定刪除此帳戶？'))return; accounts=accounts.filter(a=>a.id!==id); render(); }
+function clearAll(){
+  if(accounts.length&&!confirm('確定清除所有資料？'))return;
+  accounts=[]; goal={amt:0,date:'',monthly:0};
+  ['goalAmt','goalDate','goalMonthly'].forEach(id=>document.getElementById(id).value='');
+  render();
+}
+function saveGoal(){
+  goal.amt=parseFloat(document.getElementById('goalAmt').value)||0;
+  goal.date=document.getElementById('goalDate').value||'';
+  goal.monthly=parseFloat(document.getElementById('goalMonthly').value)||0;
+  render();
+}
+
+function loadDemo(){
+  const now=new Date();
+  function mk(offset){ let y=now.getFullYear(),m=now.getMonth()+1+offset; while(m<1){m+=12;y--;} while(m>12){m-=12;y++;} return ym(y,m); }
+  goal={amt:20000000,date:'2040-12-31',monthly:50000};
+  document.getElementById('goalAmt').value=20000000;
+  document.getElementById('goalDate').value='2040-12-31';
+  document.getElementById('goalMonthly').value=50000;
+  accounts=[
+    {id:nextId++,name:'台銀定存',type:'deposit',balance:800000,monthlyTarget:10000,rate:1.5,deposits:{[mk(-5)]:10000,[mk(-4)]:10000,[mk(-3)]:10000,[mk(-2)]:15000,[mk(-1)]:10000}},
+    {id:nextId++,name:'台積電持股',type:'stock',balance:1200000,monthlyTarget:20000,rate:8,deposits:{[mk(-4)]:20000,[mk(-3)]:20000,[mk(-2)]:25000,[mk(-1)]:20000}},
+    {id:nextId++,name:'全球股票型基金',type:'fund',balance:450000,monthlyTarget:8000,rate:6,deposits:{[mk(-3)]:8000,[mk(-2)]:8000,[mk(-1)]:8000}},
+    {id:nextId++,name:'US 公債 ETF',type:'bond',balance:300000,monthlyTarget:5000,rate:3,deposits:{[mk(-2)]:5000,[mk(-1)]:5000}},
+    {id:nextId++,name:'勞退自提',type:'pension',balance:650000,monthlyTarget:6000,rate:3,deposits:{[mk(-5)]:6000,[mk(-4)]:6000,[mk(-3)]:6000,[mk(-2)]:6000,[mk(-1)]:6000}},
+  ];
+  render();
+}
+
+let toastTimer;
+function showToast(){ const t=document.getElementById('saveToast'); t.style.display='flex'; clearTimeout(toastTimer); toastTimer=setTimeout(()=>{t.style.display='none';},1800); }
+function save(){ try{localStorage.setItem(LS_KEY,JSON.stringify({accounts,nextId,viewYear,viewMonth,goal})); showToast();}catch(e){console.warn(e);} }
+function load(){
+  try{
+    const raw=localStorage.getItem(LS_KEY); if(!raw)return;
+    const d=JSON.parse(raw);
+    accounts=d.accounts||[]; nextId=d.nextId||1;
+    if(d.viewYear)viewYear=d.viewYear; if(d.viewMonth)viewMonth=d.viewMonth;
+    if(d.goal){goal=d.goal; if(goal.amt)document.getElementById('goalAmt').value=goal.amt; if(goal.date)document.getElementById('goalDate').value=goal.date; if(goal.monthly)document.getElementById('goalMonthly').value=goal.monthly;}
+  }catch(e){console.warn(e);}
+}
+function exportData(){
+  if(!accounts.length){alert('尚無資料可匯出');return;}
+  const blob=new Blob([JSON.stringify({accounts,nextId,goal},null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob),a=document.createElement('a');
+  const n=new Date(); a.href=url; a.download=`wealthlog_${n.getFullYear()}${String(n.getMonth()+1).padStart(2,'0')}${String(n.getDate()).padStart(2,'0')}.json`;
+  a.click(); URL.revokeObjectURL(url);
+}
+function importData(ev){
+  const file=ev.target.files[0]; if(!file)return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    try{
+      const d=JSON.parse(e.target.result);
+      if(!d.accounts||!Array.isArray(d.accounts))throw new Error('格式錯誤');
+      if(!confirm(`匯入後將取代目前 ${accounts.length} 筆帳戶，確定？`))return;
+      accounts=d.accounts; nextId=d.nextId||1;
+      if(d.goal){goal=d.goal; if(goal.amt)document.getElementById('goalAmt').value=goal.amt; if(goal.date)document.getElementById('goalDate').value=goal.date; if(goal.monthly)document.getElementById('goalMonthly').value=goal.monthly;}
+      save(); render(); alert('✓ 匯入成功！');
+    }catch(err){alert('匯入失敗：'+err.message);}
+  };
+  reader.readAsText(file); ev.target.value='';
+}
+
+function drawRing(pct){
+  const canvas=document.getElementById('ringCanvas'); if(!canvas)return;
+  const ctx=canvas.getContext('2d');
+  const cx=75,cy=75,r=60,lw=11;
+  ctx.clearRect(0,0,150,150);
+  ctx.beginPath(); ctx.arc(cx,cy,r,-Math.PI/2,Math.PI*2-Math.PI/2);
+  ctx.strokeStyle='rgba(190,150,120,.12)'; ctx.lineWidth=lw; ctx.lineCap='round'; ctx.stroke();
+  if(pct>0){
+    const end=(-Math.PI/2)+(Math.PI*2*(pct/100));
+    const grad=ctx.createLinearGradient(cx-r,cy,cx+r,cy);
+    grad.addColorStop(0,'#e8adb3'); grad.addColorStop(1,'#e8976a');
+    ctx.beginPath(); ctx.arc(cx,cy,r,-Math.PI/2,end);
+    ctx.strokeStyle=grad; ctx.lineWidth=lw; ctx.lineCap='round'; ctx.stroke();
+  }
+  if(accounts.length>0){
+    const total=totalSavings()||1; let startAngle=-Math.PI/2; const innerR=r-15;
+    accounts.forEach(a=>{
+      const share=currentBalance(a)/total; const sweep=Math.PI*2*share;
+      ctx.beginPath(); ctx.arc(cx,cy,innerR,startAngle,startAngle+sweep);
+      ctx.strokeStyle=TC[a.type].fill+'bb'; ctx.lineWidth=6; ctx.lineCap='butt'; ctx.stroke();
+      startAngle+=sweep;
+    });
+  }
+}
+
+function openHistory(){
+  const allKeys=new Set(); accounts.forEach(a=>Object.keys(a.deposits).forEach(k=>allKeys.add(k)));
+  const sorted=[...allKeys].sort().reverse();
+  if(!sorted.length){ document.getElementById('histContent').innerHTML='<p style="color:var(--text3);font-size:13px">尚無存款紀錄</p>'; }
+  else {
+    let html='';
+    for(const key of sorted){
+      let total=0,rows='';
+      accounts.forEach(a=>{ if(a.deposits[key]!==undefined){ const c=TC[a.type]; rows+=`<div class="hist-item"><span class="hist-item-name"><span style="background:${c.bg};color:${c.color};padding:1px 8px;border-radius:99px;font-size:10px">${c.label}</span>${a.name}</span><span class="hist-item-amt">+${fmt(a.deposits[key])}</span></div>`; total+=a.deposits[key]; } });
+      if(rows)html+=`<div class="hist-group"><div class="hist-month">${ymLb(key)}</div>${rows}<div class="hist-total"><span>本月存入合計</span><span class="hist-total-amt">+${fmt(total)}</span></div></div>`;
+    }
+    document.getElementById('histContent').innerHTML=html||'<p style="color:var(--text3)">尚無記錄</p>';
+  }
+  document.getElementById('histModal').classList.add('open');
+}
+function closeHistory(){ document.getElementById('histModal').classList.remove('open'); }
+
+// ── FORECAST ──────────────────────────────────────────────────
+let fcChartInst=null;
+
+function projectGrowthCompound(startAmt,monthlyAmt,months,annualRate){
+  const mr=annualRate/100/12;
+  const pts=[Math.round(startAmt)];
+  let bal=startAmt;
+  for(let i=1;i<=months;i++){
+    bal=mr>0?bal*(1+mr)+monthlyAmt:bal+monthlyAmt;
+    if(i%12===0)pts.push(Math.round(bal));
+  }
+  return pts;
+}
+
+function renderForecast(){
+  const gAmt=goal.amt||0;
+  const total=totalSavings();
+  const monthly=goal.monthly||accounts.reduce((s,a)=>s+a.monthlyTarget,0);
+  const wRate=weightedRate();
+  const scenarios=[
+    {label:'現有速度',  monthly:monthly,                  rate:wRate,          color:'#7aaa8a'},
+    {label:'每月 +10%', monthly:Math.round(monthly*1.1),  rate:wRate,          color:'#c8a050'},
+    {label:'每月 +20%', monthly:Math.round(monthly*1.2),  rate:wRate,          color:'#7aaac8'},
+  ];
+  const baseM=monthsToReachCompound(total,monthly,gAmt,wRate);
+  const maxM=baseM?Math.min(baseM+12,600):120;
+  const yearCount=Math.ceil(maxM/12);
+  const labels=[];
+  for(let y=0;y<=yearCount;y++)labels.push(y===0?'現在':'+'+y+'年');
+  const datasets=[];
+  if(gAmt>0){
+    datasets.push({label:'目標',data:Array(labels.length).fill(gAmt),borderColor:'rgba(200,160,80,.5)',borderDash:[6,4],borderWidth:1.5,pointRadius:0,fill:false});
+  }
+  scenarios.forEach(s=>{
+    datasets.push({label:s.label,data:projectGrowthCompound(total,s.monthly,yearCount*12,s.rate),borderColor:s.color,backgroundColor:s.color+'20',borderWidth:2.5,pointRadius:3,pointHoverRadius:6,fill:false,tension:.35});
+  });
+  const ctx=document.getElementById('fcChart'); if(!ctx)return;
+  if(fcChartInst)fcChartInst.destroy();
+  fcChartInst=new Chart(ctx,{
+    type:'line',data:{labels,datasets},
+    options:{
+      responsive:true,maintainAspectRatio:false,animation:{duration:600},
+      plugins:{legend:{display:false},tooltip:{backgroundColor:'#fff',titleColor:'#5c3d2e',bodyColor:'#9a7060',borderColor:'rgba(190,150,120,.2)',borderWidth:1,callbacks:{label:ctx=>' '+ctx.dataset.label+'：NT$'+Math.round(ctx.raw).toLocaleString('zh-TW')}}},
+      scales:{
+        x:{ticks:{color:'#c4a090',font:{size:11},maxRotation:0},grid:{color:'rgba(190,150,120,.08)'}},
+        y:{ticks:{color:'#c4a090',font:{size:10},callback:v=>v>=10000?(v/10000).toFixed(0)+'萬':v.toLocaleString()},grid:{color:'rgba(190,150,120,.08)'}}
+      }
+    }
+  });
+  const leg=document.getElementById('fcLegend');
+  if(leg){
+    leg.innerHTML=`<div style="font-size:10px;color:var(--text3);font-weight:500;margin-bottom:2px">加權報酬率 ${wRate.toFixed(1)}%／年</div>`
+      +(gAmt>0?`<div class="fc-legend-item"><div class="fc-legend-dash" style="border-color:#c8a050"></div>目標金額</div>`:'')
+      +scenarios.map(s=>`<div class="fc-legend-item"><div class="fc-legend-line" style="background:${s.color}"></div>${s.label}<br><span class="fc-legend-sub">NT$${s.monthly.toLocaleString()}/月</span></div>`).join('');
+  }
+  const scEl=document.getElementById('fcScenarios'); if(!scEl)return;
+  if(!gAmt){scEl.innerHTML='<div class="empty" style="padding:.5rem">設定目標金額後顯示預測</div>';return;}
+  scEl.innerHTML=scenarios.map((s,i)=>{
+    const m=monthsToReachCompound(total,s.monthly,gAmt,s.rate);
+    const yr=m!==null?Math.floor(m/12):null; const mo=m!==null?m%12:null;
+    const etaDate=m!==null?addMonths(new Date(),m):null;
+    const etaStr=etaDate?fmtDate(etaDate):'無法計算';
+    const diff=m!==null&&baseM!==null?baseM-m:null;
+    const diffStr=diff!==null&&diff>0?`提早 ${diff} 個月`:(diff===0?'相同速度':'');
+    return `<div class="fc-card${i===0?' highlight':''}" style="animation-delay:${i*.06}s">
+      <div class="fc-card-label">${s.label}</div>
+      <div class="fc-card-val" style="color:${s.color}">${m!==null?(yr+'年'+mo+'月'):'—'}</div>
+      <div class="fc-card-sub">${etaStr}</div>
+      ${diffStr?`<div style="font-size:10px;color:var(--sage);margin-top:3px">✓ ${diffStr}</div>`:''}
+    </div>`;
+  }).join('');
+}
+
+function renderAdvice(){
+  const el=document.getElementById('advicePanel'); if(!el)return;
+  const gAmt=goal.amt||0;
+  const total=totalSavings();
+  const monthly=goal.monthly||accounts.reduce((s,a)=>s+a.monthlyTarget,0);
+  const wRate=weightedRate();
+  if(!gAmt||!monthly){el.innerHTML='<div class="empty">設定目標金額與每月存入後，自動顯示加速建議</div>';return;}
+  const baseM=monthsToReachCompound(total,monthly,gAmt,wRate);
+  const m10=monthsToReachCompound(total,Math.round(monthly*1.1),gAmt,wRate);
+  const m20=monthsToReachCompound(total,Math.round(monthly*1.2),gAmt,wRate);
+  const m50=monthsToReachCompound(total,Math.round(monthly*1.5),gAmt,wRate);
+  const saved10=baseM!==null&&m10!==null?baseM-m10:0;
+  const saved20=baseM!==null&&m20!==null?baseM-m20:0;
+  const saved50=baseM!==null&&m50!==null?baseM-m50:0;
+  let targetExtra=null;
+  if(goal.date){ const tDate=new Date(goal.date); const remM=Math.max(1,monthDiff(new Date(),tDate)); const needed=Math.ceil((gAmt-total)/remM); targetExtra=Math.max(0,needed-monthly); }
+  el.innerHTML=`
+    <div class="advice-grid">
+      <div class="advice-card" style="animation-delay:.04s">
+        <span class="advice-card-icon">📈</span>
+        <div class="advice-card-title">每月增加 10%</div>
+        <div class="advice-card-val advice-card-save">提早 ${saved10} 個月</div>
+        <div class="advice-card-desc">每月存入 <strong>NT$${Math.round(monthly*1.1).toLocaleString()}</strong>，約 ${m10?(Math.floor(m10/12)+'年'+m10%12+'月後'):'—'} 達成</div>
+      </div>
+      <div class="advice-card" style="animation-delay:.08s">
+        <span class="advice-card-icon">🚀</span>
+        <div class="advice-card-title">每月增加 20%</div>
+        <div class="advice-card-val advice-card-save">提早 ${saved20} 個月</div>
+        <div class="advice-card-desc">每月存入 <strong>NT$${Math.round(monthly*1.2).toLocaleString()}</strong>，約 ${m20?(Math.floor(m20/12)+'年'+m20%12+'月後'):'—'} 達成</div>
+      </div>
+      <div class="advice-card" style="animation-delay:.12s">
+        <span class="advice-card-icon">⚡</span>
+        <div class="advice-card-title">每月增加 50%</div>
+        <div class="advice-card-val advice-card-save">提早 ${saved50} 個月</div>
+        <div class="advice-card-desc">每月存入 <strong>NT$${Math.round(monthly*1.5).toLocaleString()}</strong>，約 ${m50?(Math.floor(m50/12)+'年'+m50%12+'月後'):'—'} 達成</div>
+      </div>
+      ${targetExtra!==null?`<div class="advice-card" style="animation-delay:.16s">
+        <span class="advice-card-icon">🎯</span>
+        <div class="advice-card-title">準時達標需增加</div>
+        <div class="advice-card-val" style="color:var(--honey)">+NT$${targetExtra.toLocaleString()}/月</div>
+        <div class="advice-card-desc">每月共需 <strong>NT$${(monthly+targetExtra).toLocaleString()}</strong>，才能在目標日期前達成</div>
+      </div>`:''}
+    </div>
+    <div class="advice-tip">
+      🌿 <strong>小提醒：</strong>預測已納入各帳戶年化報酬率複利計算（加權平均 <strong>${wRate.toFixed(1)}%／年</strong>）。
+      若將增加的存款集中投入高報酬帳戶，實際達成速度將更快。
+      現有月存 <strong>NT$${monthly.toLocaleString()}</strong>，
+      距目標還有 <strong>NT$${Math.max(0,gAmt-total).toLocaleString()}</strong>，
+      預計 <strong>${baseM?Math.floor(baseM/12)+'年'+baseM%12+'個月':'—'}</strong> 達成 🌸
+    </div>`;
+}
+
+function render(){
+  const key=currentKey();
+  document.getElementById('monthBadge').textContent=viewYear+'年'+viewMonth+'月';
+  document.getElementById('monthPicker').value=key;
+  const total=totalSavings(); const gAmt=goal.amt||0;
+  const pct=progressPct(); const estM=estMonthsToFreedom();
+  const monthly=goal.monthly||accounts.reduce((s,a)=>s+a.monthlyTarget,0);
+  drawRing(pct);
+  document.getElementById('ring-pct').textContent=pct.toFixed(1)+'%';
+  document.getElementById('fd-total').textContent=fmt(total);
+  document.getElementById('fd-goal').textContent=gAmt?fmt(gAmt):'尚未設定目標';
+  document.getElementById('fd-gap').textContent=gAmt?fmt(Math.max(0,gAmt-total)):'—';
+  if(estM!==null&&estM===0){ document.getElementById('fd-est').textContent='已達成 🎉'; document.getElementById('fd-est').className='fd-item-val sage'; }
+  else if(estM!==null){ const estDate=addMonths(new Date(),estM); document.getElementById('fd-est').textContent=fmtDate(estDate)+'（約'+estM+'個月）'; document.getElementById('fd-est').className='fd-item-val'; }
+  else{ document.getElementById('fd-est').textContent='設定目標後計算'; document.getElementById('fd-est').className='fd-item-val'; document.getElementById('fd-est').style.color='var(--text3)'; }
+  let diffEl=document.getElementById('fd-diff');
+  if(goal.date){
+    const tDate=new Date(goal.date); document.getElementById('fd-target-date').textContent=fmtDate(tDate);
+    if(estM!==null){ const estDate=addMonths(new Date(),estM); const diffM=monthDiff(estDate,tDate);
+      if(diffM>0){diffEl.textContent='提前 '+diffM+' 個月 🌸';diffEl.className='fd-item-val sage';}
+      else if(diffM<0){diffEl.textContent='落後 '+Math.abs(diffM)+' 個月';diffEl.className='fd-item-val red';}
+      else{diffEl.textContent='剛好達成 ✓';diffEl.className='fd-item-val rose';}
+    } else{diffEl.textContent='—';diffEl.className='fd-item-val';}
+  } else{ document.getElementById('fd-target-date').textContent='尚未設定'; diffEl.textContent='—'; diffEl.className='fd-item-val'; }
+  const cdFill=document.getElementById('cd-fill'); const cdFoot=document.getElementById('cd-foot');
+  if(goal.date){
+    const tDate=new Date(goal.date); const now=new Date();
+    const allKeys=new Set(); accounts.forEach(a=>Object.keys(a.deposits).forEach(k=>allKeys.add(k)));
+    const firstKey=[...allKeys].sort()[0];
+    const startDate=firstKey?new Date(firstKey.split('-')[0],parseInt(firstKey.split('-')[1])-1,1):new Date(tDate.getFullYear()-10,tDate.getMonth(),1);
+    const totalMs=tDate-startDate; const elapsedMs=now-startDate;
+    const timePct=Math.min(100,Math.max(0,elapsedMs/totalMs*100));
+    cdFill.style.width=timePct.toFixed(1)+'%';
+    document.getElementById('cd-start').textContent=fmtDate(startDate);
+    document.getElementById('cd-end').textContent=fmtDate(tDate);
+    const remaining=monthDiff(now,tDate);
+    cdFoot.textContent=`距離目標日期還有 ${remaining>0?remaining:'0'} 個月　金錢進度：${pct.toFixed(1)}%　時間進度：${timePct.toFixed(1)}%`;
+  } else{ cdFill.style.width='0%'; cdFoot.textContent='設定目標日期後顯示倒數'; document.getElementById('cd-start').textContent='開始'; document.getElementById('cd-end').textContent='目標日期'; }
+
+  if(!accounts.length){ document.getElementById('accProgressTable').innerHTML='<div class="empty">新增帳戶後顯示各項進度</div>'; }
+  else {
+    let html=''; const sortedAcc=[...accounts].sort((a,b)=>currentBalance(b)-currentBalance(a));
+    sortedAcc.forEach((a,i)=>{
+      const c=TC[a.type]; const bal=currentBalance(a); const pctA=gAmt?Math.min(100,bal/gAmt*100):0;
+      const dep=totalDeposited(a); const reached=gAmt&&bal>=gAmt;
+      const rate=a.rate||0;
+      const yearlyGrowth=bal*rate/100;
+      const accountGoalShare=gAmt*(accounts.length>0?1/accounts.length:1);
+      let etaStr='—';
+      if(gAmt&&a.monthlyTarget){
+        const rem=Math.max(0,accountGoalShare-bal);
+        if(rem<=0){etaStr='已達標';}
+        else{const m2=monthsToReachCompound(bal,a.monthlyTarget,bal+rem,rate); etaStr=m2?'約 '+m2+' 期':'—';}
+      }
+      html+=`<div class="acc-row" style="animation-delay:${i*.04}s">
+        <div>
+          <div class="acc-name">${a.name}</div>
+          <span class="acc-type" style="background:${c.bg};color:${c.color}">${c.label}</span>
+          <span style="font-size:10px;color:var(--text3);font-family:var(--f-mono);display:block;margin-top:2px">年化 ${rate}%</span>
+        </div>
+        <div class="acc-bar-wrap">
+          <div class="acc-bar-track"><div class="acc-bar-fill" style="width:${pctA.toFixed(1)}%;background:${c.fill}"></div></div>
+          <div class="acc-bar-pct">佔目標 ${pctA.toFixed(1)}%　起始 ${fmt(a.balance)}　累積存入 ${fmt(dep)}</div>
+          <div class="acc-bar-pct" style="color:var(--sage)">今年預估增長（複利）+${fmt(yearlyGrowth)}</div>
+        </div>
+        <div><div class="acc-balance">${fmt(bal)}</div><div class="acc-balance-label">複利後估算</div></div>
+        <div class="acc-target"><strong>每月 ${fmt(a.monthlyTarget)}</strong>預計存入</div>
+        <div class="acc-eta">${reached?'<span class="reached-tag">✓ 已達標</span>':'<strong>'+etaStr+'</strong>'}</div>
+      </div>`;
+    });
+    document.getElementById('accProgressTable').innerHTML=html;
+  }
+
+  if(!accounts.length){ document.getElementById('accCards').innerHTML='<div class="empty">新增帳戶後，可在此記錄每月存款</div>'; renderForecast(); renderAdvice(); save(); return; }
+  let cardsHtml='';
+  accounts.forEach((a,idx)=>{
+    const c=TC[a.type]; const bal=currentBalance(a); const curDep=a.deposits[key]; const hasRec=curDep!==undefined;
+    let dotsHtml='';
+    for(let i=11;i>=0;i--){
+      let[yy,mm]=[viewYear,viewMonth-i]; while(mm<1){mm+=12;yy--;}
+      const k=ym(yy,mm); const isNow=k===key; const p=a.deposits[k];
+      let cls='skip',tip=ymLb(k)+'：未記錄',txt='';
+      if(p!==undefined){cls='done';tip=ymLb(k)+'：+'+fmt(p);txt='✓';}
+      if(isNow&&!hasRec){cls='today';tip='本月（未記錄）';txt='●';}
+      if(isNow&&hasRec){cls='today done';tip='本月：+'+fmt(p);txt='✓';}
+      dotsHtml+=`<div class="dot ${cls}" data-tip="${tip}">${txt}</div>`;
+    }
+    cardsHtml+=`<div class="acc-card" style="animation-delay:${idx*.04}s">
+      <div class="acd-head">
+        <div class="acd-left">
+          <span class="acd-name">${a.name}</span>
+          <span class="acd-badge" style="background:${c.bg};color:${c.color}">${c.label}</span>
+          ${hasRec?`<span class="dep-recorded">✓ 本月已存入 +${fmt(curDep)}</span>`:''}
+        </div>
+        <div class="acd-right"><span class="acd-bal">${fmt(bal)}</span><button class="acd-del" onclick="removeAccount(${a.id})" aria-label="刪除">✕</button></div>
+      </div>
+      <div class="dep-row">
+        <span class="dep-label">本月存入金額</span>
+        <input class="dep-input" type="number" min="0" id="dep_${a.id}" value="${hasRec?curDep:''}" placeholder="${a.monthlyTarget}" oninput="recordDeposit(${a.id},'${key}',this.value)"/>
+        <span class="dep-default">預設 ${fmt(a.monthlyTarget)}</span>
+        <div class="dep-actions">
+          <button class="btn btn-sm btn-sage" onclick="applyDefault(${a.id})">套用預設</button>
+          ${hasRec?`<button class="btn btn-sm" style="color:#c8504a;border-color:rgba(200,80,74,.3)" onclick="clearDep(${a.id})">清除</button>`:''}
+        </div>
+      </div>
+      <div class="acd-meta">
+        <span>起始餘額 ${fmt(a.balance)}</span><span>累積存入 ${fmt(totalDeposited(a))}</span>
+        <span>目前估算 ${fmt(bal)}</span><span>每月目標 ${fmt(a.monthlyTarget)}</span>
+      </div>
+      <div class="dep-row" style="margin-top:8px;margin-bottom:0">
+        <span class="dep-label">年化報酬率</span>
+        <input class="dep-input" type="number" min="0" max="100" step="0.1" style="width:80px"
+          value="${a.rate||0}" oninput="updateRate(${a.id},this.value)"/>
+        <span class="dep-default">% / 年</span>
+        <span style="margin-left:auto;font-size:11px;color:var(--sage);font-family:var(--f-mono)">今年預估 +${fmt(bal*(a.rate||0)/100)}</span>
+      </div>
+      <div class="dot-row">${dotsHtml}</div>
+    </div>`;
+  });
+  document.getElementById('accCards').innerHTML=cardsHtml;
+  renderForecast();
+  renderAdvice();
+  save();
+}
+
+load();
+applyDefaultRate();
+render();
+</script>
+</body>
+</html>
