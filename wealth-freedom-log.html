@@ -1197,6 +1197,19 @@ onAuthStateChanged(auth, user => {
   }
 });
 applyDefaultRate();
+
+// ── 讓 onclick 可以呼叫 module 內的函數 ──────────────────
+Object.assign(window, {
+  handleSignIn, handleSignOut,
+  exportData, importData,
+  openHistory, closeHistory,
+  loadDemo, clearAll, saveGoal,
+  addAccount, removeAccount,
+  recordDeposit, applyDefault, clearDep, applyAllDefault,
+  changeMonth, goToday, jumpMonth,
+  updateRate, applyDefaultRate,
+  render
+});
 </script>
 </body>
 </html>

@@ -834,6 +834,18 @@ onAuthStateChanged(auth, user => {
     _render();
   }
 });
+
+// ── 讓 onclick 可以呼叫 module 內的函數 ──────────────────
+Object.assign(window, {
+  handleSignIn, handleSignOut,
+  exportData, importData,
+  openHistory, closeHistory,
+  loadDemo, clearAll,
+  addDebt, removeDebt,
+  recordPayment, applyDefault, clearPay, applyAllDefault,
+  changeMonth, goToday, jumpMonth,
+  render
+});
 </script>
 </body>
 </html>
