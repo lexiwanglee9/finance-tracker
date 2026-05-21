@@ -861,7 +861,7 @@ function subscribeToData(uid){
       accounts=d.accounts||[]; nextId=d.nextId||1;
       if(d.viewYear)viewYear=d.viewYear; if(d.viewMonth)viewMonth=d.viewMonth;
       if(d.goal){goal=d.goal; applyGoalToUI(goal);}
-      _render();
+      _fromSnapshot=true; _render(); _fromSnapshot=false;
     }
   });
 }
@@ -1178,12 +1178,15 @@ function render(){
   document.getElementById('accCards').innerHTML=cardsHtml;
   renderForecast();
   renderAdvice();
-  save();
 }
 
 // ── PATCH render ─────────────────────────────────────────
 const _render = render;
-render = function(){ _render(); save(); };
+let _fromSnapshot = false;
+render = function(){
+  _render();
+  if(!_fromSnapshot) save();
+};
 
 // ── INIT ─────────────────────────────────────────────────
 onAuthStateChanged(auth, user => {
