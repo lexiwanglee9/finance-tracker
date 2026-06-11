@@ -842,13 +842,13 @@ let saveTimer=null;
 let toastTimer;
 function showToast(){ const t=document.getElementById('saveToast'); t.style.display='flex'; clearTimeout(toastTimer); toastTimer=setTimeout(()=>{t.style.display='none';},1800); }
 function save(){
-  showToast();
-  if(!currentUser)return;
+  if(!currentUser){ showToast(); return; }
   clearTimeout(saveTimer);
   saveTimer=setTimeout(async()=>{
     try{
       await setDoc(doc(db,'users',currentUser.uid,'data','wealthlog'),
         {accounts,nextId,viewYear,viewMonth,goal,updatedAt:Date.now()});
+      showToast();
     }catch(e){console.warn('Firestore save failed',e);}
   },800);
 }
