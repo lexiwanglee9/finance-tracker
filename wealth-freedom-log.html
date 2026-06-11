@@ -723,11 +723,17 @@ function changeMonth(d){
 function goToday(){ const n=new Date(); viewYear=n.getFullYear(); viewMonth=n.getMonth()+1; render(); }
 function jumpMonth(val){ if(!val)return; const[y,m]=val.split('-').map(Number); viewYear=y;viewMonth=m; render(); }
 
+// ── DEBOUNCE HELPER ──────────────────────────────────────
+function debounce(fn, delay){
+  let t; return function(...args){ clearTimeout(t); t=setTimeout(()=>fn.apply(this,args), delay); };
+}
+const renderDebounced = debounce(()=>render(), 400);
+
 function recordDeposit(id,key,val){
   const a=accounts.find(x=>x.id===id); if(!a)return;
   const amt=parseFloat(val);
   if(isNaN(amt)||val==='')delete a.deposits[key]; else a.deposits[key]=Math.max(0,amt);
-  render();
+  renderDebounced();
 }
 function applyDefault(id){ const a=accounts.find(x=>x.id===id); if(!a)return; a.deposits[currentKey()]=a.monthlyTarget; render(); }
 function clearDep(id){ const a=accounts.find(x=>x.id===id); if(!a)return; delete a.deposits[currentKey()]; render(); }
@@ -735,7 +741,7 @@ function applyAllDefault(){ const key=currentKey(); accounts.forEach(a=>{a.depos
 
 function updateRate(id,val){
   const a=accounts.find(x=>x.id===id); if(!a)return;
-  const r=parseFloat(val); a.rate=isNaN(r)?0:Math.min(100,Math.max(0,r)); render();
+  const r=parseFloat(val); a.rate=isNaN(r)?0:Math.min(100,Math.max(0,r)); renderDebounced();
 }
 
 function addAccount(){
@@ -762,7 +768,7 @@ function saveGoal(){
   goal.amt=parseFloat(document.getElementById('goalAmt').value)||0;
   goal.date=document.getElementById('goalDate').value||'';
   goal.monthly=parseFloat(document.getElementById('goalMonthly').value)||0;
-  render();
+  renderDebounced();
 }
 
 function loadDemo(){
