@@ -417,7 +417,8 @@ label.btn{cursor:pointer}
 
 /* ── ANIMATIONS ── */
 @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-.acc-card,.acc-row,.fc-card,.advice-card{animation:fadeUp .24s ease both}
+/* animation only on initial mount via .animate class, not on every re-render */
+.acc-card.animate,.acc-row.animate,.fc-card.animate,.advice-card.animate{animation:fadeUp .24s ease both}
 
 /* ── RESPONSIVE ── */
 @media(max-width:720px){
@@ -1072,31 +1073,57 @@ function renderAdvice(){
     </div>`;
 }
 
-function render(){
+// ── HELPERS ──────────────────────────────────────────────
+// Safe text setter — only touches DOM if value changed
+function setText(id, val){
+  const el=document.getElementById(id); if(el&&el.textContent!==String(val)) el.textContent=val;
+}
+function setAttr(el, attr, val){
+  if(el&&el.getAttribute(attr)!==String(val)) el.setAttribute(attr,val);
+}
+function setProp(el, prop, val){
+  if(el&&el[prop]!==val) el[prop]=val;
+}
+
+// ── RENDER DASHBOARD (no innerHTML, only targeted updates) ──
+function renderDashboard(){
   const key=currentKey();
-  document.getElementById('monthBadge').textContent=viewYear+'年'+viewMonth+'月';
-  document.getElementById('monthPicker').value=key;
+  setText('monthBadge', viewYear+'年'+viewMonth+'月');
+  const picker=document.getElementById('monthPicker');
+  setProp(picker,'value',key);
+
   const total=totalSavings(); const gAmt=goal.amt||0;
   const pct=progressPct(); const estM=estMonthsToFreedom();
-  const monthly=goal.monthly||accounts.reduce((s,a)=>s+a.monthlyTarget,0);
   drawRing(pct);
-  document.getElementById('ring-pct').textContent=pct.toFixed(1)+'%';
-  document.getElementById('fd-total').textContent=fmt(total);
-  document.getElementById('fd-goal').textContent=gAmt?fmt(gAmt):'尚未設定目標';
-  document.getElementById('fd-gap').textContent=gAmt?fmt(Math.max(0,gAmt-total)):'—';
-  if(estM!==null&&estM===0){ document.getElementById('fd-est').textContent='已達成 🎉'; document.getElementById('fd-est').className='fd-item-val sage'; }
-  else if(estM!==null){ const estDate=addMonths(new Date(),estM); document.getElementById('fd-est').textContent=fmtDate(estDate)+'（約'+estM+'個月）'; document.getElementById('fd-est').className='fd-item-val'; }
-  else{ document.getElementById('fd-est').textContent='設定目標後計算'; document.getElementById('fd-est').className='fd-item-val'; document.getElementById('fd-est').style.color='var(--text3)'; }
-  let diffEl=document.getElementById('fd-diff');
+  setText('ring-pct', pct.toFixed(1)+'%');
+  setText('fd-total', fmt(total));
+  setText('fd-goal', gAmt?fmt(gAmt):'尚未設定目標');
+  setText('fd-gap', gAmt?fmt(Math.max(0,gAmt-total)):'—');
+
+  const estEl=document.getElementById('fd-est');
+  if(estEl){
+    if(estM!==null&&estM===0){ estEl.textContent='已達成 🎉'; estEl.className='fd-item-val sage'; }
+    else if(estM!==null){ const estDate=addMonths(new Date(),estM); estEl.textContent=fmtDate(estDate)+'（約'+estM+'個月）'; estEl.className='fd-item-val'; estEl.style.color=''; }
+    else{ estEl.textContent='設定目標後計算'; estEl.className='fd-item-val'; estEl.style.color='var(--text3)'; }
+  }
+
+  const diffEl=document.getElementById('fd-diff');
   if(goal.date){
-    const tDate=new Date(goal.date); document.getElementById('fd-target-date').textContent=fmtDate(tDate);
-    if(estM!==null){ const estDate=addMonths(new Date(),estM); const diffM=monthDiff(estDate,tDate);
+    const tDate=new Date(goal.date);
+    setText('fd-target-date', fmtDate(tDate));
+    if(diffEl&&estM!==null){
+      const estDate=addMonths(new Date(),estM); const diffM=monthDiff(estDate,tDate);
       if(diffM>0){diffEl.textContent='提前 '+diffM+' 個月 🌸';diffEl.className='fd-item-val sage';}
       else if(diffM<0){diffEl.textContent='落後 '+Math.abs(diffM)+' 個月';diffEl.className='fd-item-val red';}
       else{diffEl.textContent='剛好達成 ✓';diffEl.className='fd-item-val rose';}
-    } else{diffEl.textContent='—';diffEl.className='fd-item-val';}
-  } else{ document.getElementById('fd-target-date').textContent='尚未設定'; diffEl.textContent='—'; diffEl.className='fd-item-val'; }
-  const cdFill=document.getElementById('cd-fill'); const cdFoot=document.getElementById('cd-foot');
+    } else if(diffEl){diffEl.textContent='—';diffEl.className='fd-item-val';}
+  } else {
+    setText('fd-target-date','尚未設定');
+    if(diffEl){diffEl.textContent='—';diffEl.className='fd-item-val';}
+  }
+
+  const cdFill=document.getElementById('cd-fill');
+  const cdFoot=document.getElementById('cd-foot');
   if(goal.date){
     const tDate=new Date(goal.date); const now=new Date();
     const allKeys=new Set(); accounts.forEach(a=>Object.keys(a.deposits).forEach(k=>allKeys.add(k)));
@@ -1104,94 +1131,242 @@ function render(){
     const startDate=firstKey?new Date(firstKey.split('-')[0],parseInt(firstKey.split('-')[1])-1,1):new Date(tDate.getFullYear()-10,tDate.getMonth(),1);
     const totalMs=tDate-startDate; const elapsedMs=now-startDate;
     const timePct=Math.min(100,Math.max(0,elapsedMs/totalMs*100));
-    cdFill.style.width=timePct.toFixed(1)+'%';
-    document.getElementById('cd-start').textContent=fmtDate(startDate);
-    document.getElementById('cd-end').textContent=fmtDate(tDate);
+    if(cdFill) cdFill.style.width=timePct.toFixed(1)+'%';
+    setText('cd-start', fmtDate(startDate));
+    setText('cd-end', fmtDate(tDate));
     const remaining=monthDiff(now,tDate);
-    cdFoot.textContent=`距離目標日期還有 ${remaining>0?remaining:'0'} 個月　金錢進度：${pct.toFixed(1)}%　時間進度：${timePct.toFixed(1)}%`;
-  } else{ cdFill.style.width='0%'; cdFoot.textContent='設定目標日期後顯示倒數'; document.getElementById('cd-start').textContent='開始'; document.getElementById('cd-end').textContent='目標日期'; }
+    const footTxt=`距離目標日期還有 ${remaining>0?remaining:'0'} 個月　金錢進度：${pct.toFixed(1)}%　時間進度：${timePct.toFixed(1)}%`;
+    if(cdFoot&&cdFoot.textContent!==footTxt) cdFoot.textContent=footTxt;
+  } else {
+    if(cdFill) cdFill.style.width='0%';
+    setText('cd-start','開始'); setText('cd-end','目標日期');
+    if(cdFoot) cdFoot.textContent='設定目標日期後顯示倒數';
+  }
+}
 
-  if(!accounts.length){ document.getElementById('accProgressTable').innerHTML='<div class="empty">新增帳戶後顯示各項進度</div>'; }
-  else {
-    let html=''; const sortedAcc=[...accounts].sort((a,b)=>currentBalance(b)-currentBalance(a));
-    sortedAcc.forEach((a,i)=>{
-      const c=TC[a.type]; const bal=currentBalance(a); const pctA=gAmt?Math.min(100,bal/gAmt*100):0;
-      const dep=totalDeposited(a); const reached=gAmt&&bal>=gAmt;
-      const rate=a.rate||0;
-      const yearlyGrowth=bal*rate/100;
-      const accountGoalShare=gAmt*(accounts.length>0?1/accounts.length:1);
-      let etaStr='—';
-      if(gAmt&&a.monthlyTarget){
-        const rem=Math.max(0,accountGoalShare-bal);
-        if(rem<=0){etaStr='已達標';}
-        else{const m2=monthsToReachCompound(bal,a.monthlyTarget,bal+rem,rate); etaStr=m2?'約 '+m2+' 期':'—';}
-      }
-      html+=`<div class="acc-row" style="animation-delay:${i*.04}s">
+// ── RENDER PROGRESS TABLE (diff by account id) ──
+function renderAccProgress(){
+  const gAmt=goal.amt||0;
+  const container=document.getElementById('accProgressTable');
+  if(!container)return;
+  if(!accounts.length){ container.innerHTML='<div class="empty">新增帳戶後顯示各項進度</div>'; return; }
+
+  const sortedAcc=[...accounts].sort((a,b)=>currentBalance(b)-currentBalance(a));
+  const existingIds=new Set([...container.querySelectorAll('.acc-row')].map(el=>el.dataset.accId));
+  const newIds=new Set(sortedAcc.map(a=>String(a.id)));
+
+  // Remove rows that no longer exist
+  container.querySelectorAll('.acc-row').forEach(el=>{
+    if(!newIds.has(el.dataset.accId)) el.remove();
+  });
+
+  sortedAcc.forEach((a,i)=>{
+    const c=TC[a.type]; const bal=currentBalance(a);
+    const pctA=gAmt?Math.min(100,bal/gAmt*100):0;
+    const dep=totalDeposited(a); const reached=gAmt&&bal>=gAmt;
+    const rate=a.rate||0; const yearlyGrowth=bal*rate/100;
+    const accountGoalShare=gAmt*(accounts.length>0?1/accounts.length:1);
+    let etaStr='—';
+    if(gAmt&&a.monthlyTarget){
+      const rem=Math.max(0,accountGoalShare-bal);
+      if(rem<=0){etaStr='已達標';}
+      else{const m2=monthsToReachCompound(bal,a.monthlyTarget,bal+rem,rate); etaStr=m2?'約 '+m2+' 期':'—';}
+    }
+
+    let row=container.querySelector(`.acc-row[data-acc-id="${a.id}"]`);
+    if(!row){
+      // New row — create and insert at correct position
+      row=document.createElement('div');
+      row.className='acc-row animate';
+      row.dataset.accId=String(a.id);
+      row.innerHTML=`
         <div>
           <div class="acc-name">${a.name}</div>
           <span class="acc-type" style="background:${c.bg};color:${c.color}">${c.label}</span>
-          <span style="font-size:10px;color:var(--text3);font-family:var(--f-mono);display:block;margin-top:2px">年化 ${rate}%</span>
+          <span class="acc-rate-label" style="font-size:10px;color:var(--text3);font-family:var(--f-mono);display:block;margin-top:2px">年化 ${rate}%</span>
         </div>
         <div class="acc-bar-wrap">
           <div class="acc-bar-track"><div class="acc-bar-fill" style="width:${pctA.toFixed(1)}%;background:${c.fill}"></div></div>
-          <div class="acc-bar-pct">佔目標 ${pctA.toFixed(1)}%　起始 ${fmt(a.balance)}　累積存入 ${fmt(dep)}</div>
-          <div class="acc-bar-pct" style="color:var(--sage)">今年預估增長（複利）+${fmt(yearlyGrowth)}</div>
+          <div class="acc-bar-pct acc-bar-pct1">佔目標 ${pctA.toFixed(1)}%　起始 ${fmt(a.balance)}　累積存入 ${fmt(dep)}</div>
+          <div class="acc-bar-pct acc-bar-pct2" style="color:var(--sage)">今年預估增長（複利）+${fmt(yearlyGrowth)}</div>
         </div>
         <div><div class="acc-balance">${fmt(bal)}</div><div class="acc-balance-label">複利後估算</div></div>
-        <div class="acc-target"><strong>每月 ${fmt(a.monthlyTarget)}</strong>預計存入</div>
-        <div class="acc-eta">${reached?'<span class="reached-tag">✓ 已達標</span>':'<strong>'+etaStr+'</strong>'}</div>
-      </div>`;
-    });
-    document.getElementById('accProgressTable').innerHTML=html;
-  }
-
-  if(!accounts.length){ document.getElementById('accCards').innerHTML='<div class="empty">新增帳戶後，可在此記錄每月存款</div>'; renderForecast(); renderAdvice(); if(!_fromSnapshot) save(); return; }
-  let cardsHtml='';
-  accounts.forEach((a,idx)=>{
-    const c=TC[a.type]; const bal=currentBalance(a); const curDep=a.deposits[key]; const hasRec=curDep!==undefined;
-    let dotsHtml='';
-    for(let i=11;i>=0;i--){
-      let[yy,mm]=[viewYear,viewMonth-i]; while(mm<1){mm+=12;yy--;}
-      const k=ym(yy,mm); const isNow=k===key; const p=a.deposits[k];
-      let cls='skip',tip=ymLb(k)+'：未記錄',txt='';
-      if(p!==undefined){cls='done';tip=ymLb(k)+'：+'+fmt(p);txt='✓';}
-      if(isNow&&!hasRec){cls='today';tip='本月（未記錄）';txt='●';}
-      if(isNow&&hasRec){cls='today done';tip='本月：+'+fmt(p);txt='✓';}
-      dotsHtml+=`<div class="dot ${cls}" data-tip="${tip}">${txt}</div>`;
+        <div class="acc-target"><strong class="acc-target-val">每月 ${fmt(a.monthlyTarget)}</strong>預計存入</div>
+        <div class="acc-eta"><span class="acc-eta-val">${reached?'<span class="reached-tag">✓ 已達標</span>':'<strong>'+etaStr+'</strong>'}</span></div>`;
+      // Insert at correct position
+      const rows=[...container.querySelectorAll('.acc-row')];
+      if(rows[i]) container.insertBefore(row,rows[i]);
+      else container.appendChild(row);
+      // Remove animation class after it plays
+      setTimeout(()=>row.classList.remove('animate'),300);
+    } else {
+      // Existing row — patch only changed values
+      const barFill=row.querySelector('.acc-bar-fill');
+      const w=pctA.toFixed(1)+'%';
+      if(barFill&&barFill.style.width!==w) barFill.style.width=w;
+      const pct1=row.querySelector('.acc-bar-pct1');
+      const p1txt=`佔目標 ${pctA.toFixed(1)}%　起始 ${fmt(a.balance)}　累積存入 ${fmt(dep)}`;
+      if(pct1&&pct1.textContent!==p1txt) pct1.textContent=p1txt;
+      const pct2=row.querySelector('.acc-bar-pct2');
+      const p2txt=`今年預估增長（複利）+${fmt(yearlyGrowth)}`;
+      if(pct2&&pct2.textContent!==p2txt) pct2.textContent=p2txt;
+      const balEl=row.querySelector('.acc-balance');
+      if(balEl&&balEl.textContent!==fmt(bal)) balEl.textContent=fmt(bal);
+      const etaEl=row.querySelector('.acc-eta-val');
+      const etaHtml=reached?'<span class="reached-tag">✓ 已達標</span>':'<strong>'+etaStr+'</strong>';
+      if(etaEl&&etaEl.innerHTML!==etaHtml) etaEl.innerHTML=etaHtml;
+      const rateEl=row.querySelector('.acc-rate-label');
+      const rateTxt=`年化 ${rate}%`;
+      if(rateEl&&rateEl.textContent!==rateTxt) rateEl.textContent=rateTxt;
     }
-    cardsHtml+=`<div class="acc-card" style="animation-delay:${idx*.04}s">
-      <div class="acd-head">
-        <div class="acd-left">
-          <span class="acd-name">${a.name}</span>
-          <span class="acd-badge" style="background:${c.bg};color:${c.color}">${c.label}</span>
-          ${hasRec?`<span class="dep-recorded">✓ 本月已存入 +${fmt(curDep)}</span>`:''}
-        </div>
-        <div class="acd-right"><span class="acd-bal">${fmt(bal)}</span><button class="acd-del" onclick="removeAccount(${a.id})" aria-label="刪除">✕</button></div>
-      </div>
-      <div class="dep-row">
-        <span class="dep-label">本月存入金額</span>
-        <input class="dep-input" type="number" min="0" id="dep_${a.id}" value="${hasRec?curDep:''}" placeholder="${a.monthlyTarget}" oninput="recordDeposit(${a.id},'${key}',this.value)"/>
-        <span class="dep-default">預設 ${fmt(a.monthlyTarget)}</span>
-        <div class="dep-actions">
-          <button class="btn btn-sm btn-sage" onclick="applyDefault(${a.id})">套用預設</button>
-          ${hasRec?`<button class="btn btn-sm" style="color:#c8504a;border-color:rgba(200,80,74,.3)" onclick="clearDep(${a.id})">清除</button>`:''}
-        </div>
-      </div>
-      <div class="acd-meta">
-        <span>起始餘額 ${fmt(a.balance)}</span><span>累積存入 ${fmt(totalDeposited(a))}</span>
-        <span>目前估算 ${fmt(bal)}</span><span>每月目標 ${fmt(a.monthlyTarget)}</span>
-      </div>
-      <div class="dep-row" style="margin-top:8px;margin-bottom:0">
-        <span class="dep-label">年化報酬率</span>
-        <input class="dep-input" type="number" min="0" max="100" step="0.1" style="width:80px"
-          value="${a.rate||0}" oninput="updateRate(${a.id},this.value)"/>
-        <span class="dep-default">% / 年</span>
-        <span style="margin-left:auto;font-size:11px;color:var(--sage);font-family:var(--f-mono)">今年預估 +${fmt(bal*(a.rate||0)/100)}</span>
-      </div>
-      <div class="dot-row">${dotsHtml}</div>
-    </div>`;
   });
-  document.getElementById('accCards').innerHTML=cardsHtml;
+}
+
+// ── RENDER ACCOUNT CARDS (diff by account id, patch inputs carefully) ──
+function renderAccCards(){
+  const key=currentKey();
+  const container=document.getElementById('accCards');
+  if(!container)return;
+  if(!accounts.length){ container.innerHTML='<div class="empty">新增帳戶後，可在此記錄每月存款</div>'; return; }
+
+  const existingIds=new Set([...container.querySelectorAll('.acc-card')].map(el=>el.dataset.accId));
+  const currentIds=new Set(accounts.map(a=>String(a.id)));
+
+  // Remove deleted accounts
+  container.querySelectorAll('.acc-card').forEach(el=>{
+    if(!currentIds.has(el.dataset.accId)) el.remove();
+  });
+
+  accounts.forEach((a,idx)=>{
+    const c=TC[a.type]; const bal=currentBalance(a);
+    const curDep=a.deposits[key]; const hasRec=curDep!==undefined;
+
+    let card=container.querySelector(`.acc-card[data-acc-id="${a.id}"]`);
+    if(!card){
+      // Build dot HTML
+      let dotsHtml='';
+      for(let i=11;i>=0;i--){
+        let[yy,mm]=[viewYear,viewMonth-i]; while(mm<1){mm+=12;yy--;}
+        const k=ym(yy,mm); const isNow=k===key; const p=a.deposits[k];
+        let cls='skip',tip=ymLb(k)+'：未記錄',txt='';
+        if(p!==undefined){cls='done';tip=ymLb(k)+'：+'+fmt(p);txt='✓';}
+        if(isNow&&!hasRec){cls='today';tip='本月（未記錄）';txt='●';}
+        if(isNow&&hasRec){cls='today done';tip='本月：+'+fmt(p);txt='✓';}
+        dotsHtml+=`<div class="dot ${cls}" data-tip="${tip}">${txt}</div>`;
+      }
+      card=document.createElement('div');
+      card.className='acc-card animate';
+      card.dataset.accId=String(a.id);
+      card.innerHTML=`
+        <div class="acd-head">
+          <div class="acd-left">
+            <span class="acd-name">${a.name}</span>
+            <span class="acd-badge" style="background:${c.bg};color:${c.color}">${c.label}</span>
+            <span class="dep-recorded-wrap">${hasRec?`<span class="dep-recorded">✓ 本月已存入 +${fmt(curDep)}</span>`:''}</span>
+          </div>
+          <div class="acd-right"><span class="acd-bal">${fmt(bal)}</span><button class="acd-del" onclick="removeAccount(${a.id})" aria-label="刪除">✕</button></div>
+        </div>
+        <div class="dep-row">
+          <span class="dep-label">本月存入金額</span>
+          <input class="dep-input" type="number" min="0" id="dep_${a.id}" value="${hasRec?curDep:''}" placeholder="${a.monthlyTarget}" oninput="recordDeposit(${a.id},'${key}',this.value)"/>
+          <span class="dep-default">預設 ${fmt(a.monthlyTarget)}</span>
+          <div class="dep-actions">
+            <button class="btn btn-sm btn-sage" onclick="applyDefault(${a.id})">套用預設</button>
+            <span class="clear-btn-wrap">${hasRec?`<button class="btn btn-sm" style="color:#c8504a;border-color:rgba(200,80,74,.3)" onclick="clearDep(${a.id})">清除</button>`:''}</span>
+          </div>
+        </div>
+        <div class="acd-meta">
+          <span>起始餘額 ${fmt(a.balance)}</span><span class="acd-dep-total">累積存入 ${fmt(totalDeposited(a))}</span>
+          <span class="acd-bal-est">目前估算 ${fmt(bal)}</span><span>每月目標 ${fmt(a.monthlyTarget)}</span>
+        </div>
+        <div class="dep-row" style="margin-top:8px;margin-bottom:0">
+          <span class="dep-label">年化報酬率</span>
+          <input class="dep-input" type="number" min="0" max="100" step="0.1" style="width:80px"
+            value="${a.rate||0}" oninput="updateRate(${a.id},this.value)"/>
+          <span class="dep-default">% / 年</span>
+          <span class="acd-yearly-growth" style="margin-left:auto;font-size:11px;color:var(--sage);font-family:var(--f-mono)">今年預估 +${fmt(bal*(a.rate||0)/100)}</span>
+        </div>
+        <div class="dot-row">${dotsHtml}</div>`;
+      container.appendChild(card);
+      setTimeout(()=>card.classList.remove('animate'),300);
+    } else {
+      // Patch only what changed — never touch the focused input
+      const activeId = document.activeElement&&document.activeElement.id;
+
+      // Balance display
+      const balEl=card.querySelector('.acd-bal');
+      if(balEl&&balEl.textContent!==fmt(bal)) balEl.textContent=fmt(bal);
+
+      // Deposit input — only update if not focused
+      const depInput=card.querySelector(`#dep_${a.id}`);
+      if(depInput&&activeId!==`dep_${a.id}`){
+        const newVal=hasRec?String(curDep):'';
+        if(depInput.value!==newVal) depInput.value=newVal;
+      }
+
+      // Recorded badge
+      const recWrap=card.querySelector('.dep-recorded-wrap');
+      if(recWrap){
+        const recHtml=hasRec?`<span class="dep-recorded">✓ 本月已存入 +${fmt(curDep)}</span>`:'';
+        if(recWrap.innerHTML!==recHtml) recWrap.innerHTML=recHtml;
+      }
+
+      // Clear button
+      const clearWrap=card.querySelector('.clear-btn-wrap');
+      if(clearWrap){
+        const clearHtml=hasRec?`<button class="btn btn-sm" style="color:#c8504a;border-color:rgba(200,80,74,.3)" onclick="clearDep(${a.id})">清除</button>`:'';
+        if(clearWrap.innerHTML!==clearHtml) clearWrap.innerHTML=clearHtml;
+      }
+
+      // Meta: cumulative deposit + balance estimate
+      const depTotal=card.querySelector('.acd-dep-total');
+      const depTotalTxt=`累積存入 ${fmt(totalDeposited(a))}`;
+      if(depTotal&&depTotal.textContent!==depTotalTxt) depTotal.textContent=depTotalTxt;
+      const balEst=card.querySelector('.acd-bal-est');
+      const balEstTxt=`目前估算 ${fmt(bal)}`;
+      if(balEst&&balEst.textContent!==balEstTxt) balEst.textContent=balEstTxt;
+
+      // Yearly growth
+      const growthEl=card.querySelector('.acd-yearly-growth');
+      const growthTxt=`今年預估 +${fmt(bal*(a.rate||0)/100)}`;
+      if(growthEl&&growthEl.textContent!==growthTxt) growthEl.textContent=growthTxt;
+
+      // Rate input — only if not focused
+      const rateInputs=card.querySelectorAll('.dep-input');
+      const rateInput=rateInputs[1]; // second dep-input is rate
+      if(rateInput&&document.activeElement!==rateInput){
+        const rateVal=String(a.rate||0);
+        if(rateInput.value!==rateVal) rateInput.value=rateVal;
+      }
+
+      // Dots — only update if month changed
+      const dotRow=card.querySelector('.dot-row');
+      if(dotRow){
+        const dots=dotRow.querySelectorAll('.dot');
+        let di=0;
+        for(let i=11;i>=0;i--,di++){
+          let[yy,mm]=[viewYear,viewMonth-i]; while(mm<1){mm+=12;yy--;}
+          const k=ym(yy,mm); const isNow=k===key; const p=a.deposits[k];
+          let cls='skip',tip=ymLb(k)+'：未記錄',txt='';
+          if(p!==undefined){cls='done';tip=ymLb(k)+'：+'+fmt(p);txt='✓';}
+          if(isNow&&!hasRec){cls='today';tip='本月（未記錄）';txt='●';}
+          if(isNow&&hasRec){cls='today done';tip='本月：+'+fmt(p);txt='✓';}
+          if(dots[di]){
+            if(dots[di].className!==`dot ${cls}`) dots[di].className=`dot ${cls}`;
+            if(dots[di].dataset.tip!==tip) dots[di].dataset.tip=tip;
+            if(dots[di].textContent!==txt) dots[di].textContent=txt;
+          }
+        }
+      }
+    }
+  });
+}
+
+// ── MAIN render: orchestrate sub-renders ──
+function render(){
+  renderDashboard();
+  renderAccProgress();
+  renderAccCards();
   renderForecast();
   renderAdvice();
   if(!_fromSnapshot) save();
