@@ -24,22 +24,15 @@
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:var(--f-body);background:var(--paper);color:var(--ink);min-height:100vh;font-size:14px}
-
-/* grain */
 body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:999;
   background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");opacity:.5}
-
 .wrap{max-width:980px;margin:0 auto;padding:0 28px 80px}
-
-/* ── masthead ── */
 .masthead{padding:40px 0 26px;border-bottom:2px solid var(--ink);margin-bottom:32px;
   display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap}
 .masthead h1{font-family:var(--f-display);font-size:54px;letter-spacing:3px;line-height:1;color:var(--ink)}
 .masthead h1 em{color:var(--accent);font-style:normal}
 .masthead-sub{font-size:12px;color:var(--ink3);margin-top:5px;letter-spacing:.06em}
 .masthead-actions{display:flex;gap:8px;flex-wrap:wrap}
-
-/* ── buttons ── */
 .btn{height:36px;padding:0 14px;border-radius:var(--r-sm);cursor:pointer;font-size:13px;
   font-family:var(--f-body);display:inline-flex;align-items:center;gap:5px;
   border:1.5px solid var(--ink2);background:transparent;color:var(--ink2);
@@ -52,22 +45,14 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:999;
 .btn-sm{height:28px;padding:0 10px;font-size:12px}
 .btn-ghost{border-color:var(--line2);color:var(--ink3)}
 .btn-ghost:hover{border-color:var(--ink);color:var(--ink);background:transparent}
-
-/* ── section label ── */
 .sec{margin-bottom:12px;display:flex;align-items:center;gap:10px}
 .sec-label{font-family:var(--f-display);font-size:21px;letter-spacing:1px;color:var(--ink);white-space:nowrap}
 .sec-line{flex:1;height:1.5px;background:var(--line2)}
-.sec-action{font-size:12px;color:var(--ink3);cursor:pointer;border:none;background:none;font-family:var(--f-body)}
-.sec-action:hover{color:var(--ink)}
-
-/* ── DASHBOARD ── */
 .dashboard{background:var(--ink);color:var(--paper);border-radius:var(--r);
   padding:28px 32px;margin-bottom:12px;position:relative;overflow:hidden}
 .dashboard::after{content:'DEBT LOG';position:absolute;right:-12px;top:-8px;
   font-family:var(--f-display);font-size:110px;color:rgba(255,255,255,.03);
   line-height:1;pointer-events:none;letter-spacing:4px}
-
-/* overall total + bar */
 .dash-total-row{display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:20px}
 .dash-total-label{font-size:11px;color:rgba(245,240,232,.4);letter-spacing:.1em;margin-bottom:4px}
 .dash-total-val{font-family:var(--f-display);font-size:52px;letter-spacing:2px;line-height:1;color:#f1948a}
@@ -77,8 +62,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:999;
 .dash-stat-label{font-size:11px;color:rgba(245,240,232,.38);letter-spacing:.06em;margin-bottom:2px}
 .dash-stat-val{font-family:var(--f-mono);font-size:18px;color:#82e0aa}
 .dash-stat-val.white{color:rgba(245,240,232,.85)}
-
-/* overall progress bar */
 .overall-bar-wrap{margin-bottom:6px}
 .overall-bar-labels{display:flex;justify-content:space-between;font-size:11px;
   color:rgba(245,240,232,.4);margin-bottom:6px}
@@ -86,17 +69,11 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:999;
 .overall-bar-fill{height:100%;background:linear-gradient(90deg,#82e0aa,#1abc9c);
   border-radius:99px;transition:width .8s cubic-bezier(.4,0,.2,1)}
 .overall-bar-foot{font-size:11px;color:rgba(245,240,232,.35);margin-top:6px}
-
-/* ── PER-DEBT PROGRESS TABLE ── */
 .debt-progress-table{margin-bottom:28px}
 .dpt-row{
-  display:grid;
-  grid-template-columns:180px 1fr 100px 110px 100px;
-  align-items:center;gap:14px;
-  background:#fff;border:1.5px solid var(--line2);
-  border-radius:var(--r);padding:14px 18px;margin-bottom:8px;
-  transition:box-shadow .15s;
-}
+  display:grid;grid-template-columns:180px 1fr 100px 110px 100px;
+  align-items:center;gap:14px;background:#fff;border:1.5px solid var(--line2);
+  border-radius:var(--r);padding:14px 18px;margin-bottom:8px;transition:box-shadow .15s}
 .dpt-row:hover{box-shadow:0 3px 16px rgba(26,26,46,.07)}
 .dpt-name{font-size:14px;font-weight:500;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .dpt-type{font-size:10px;padding:2px 7px;border-radius:12px;font-weight:500;display:inline-block;margin-top:3px}
@@ -111,8 +88,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:999;
 .dpt-months{font-size:11px;color:var(--ink3);font-family:var(--f-mono);text-align:right}
 .paid-off-tag{display:inline-flex;align-items:center;gap:4px;background:var(--green-l);
   color:var(--green);font-size:11px;padding:2px 8px;border-radius:12px;border:1px solid var(--green);font-weight:500}
-
-/* ── MONTH NAV ── */
 .month-nav{display:flex;align-items:center;gap:10px;margin-bottom:20px;flex-wrap:wrap}
 .month-badge{font-family:var(--f-display);font-size:30px;letter-spacing:1px;color:var(--ink)}
 .nav-btn{width:32px;height:32px;border-radius:50%;border:1.5px solid var(--ink2);
@@ -123,8 +98,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:999;
 .month-picker-wrap input[type=month]{
   background:transparent;border:1px solid var(--line2);border-radius:4px;
   padding:4px 8px;font-size:12px;color:var(--ink);outline:none;font-family:var(--f-body)}
-
-/* ── DEBT CARDS (monthly log) ── */
 .debt-card{background:#fff;border:1.5px solid var(--line2);border-radius:var(--r);
   padding:18px 20px;margin-bottom:12px;transition:box-shadow .15s}
 .debt-card:hover{box-shadow:0 4px 20px rgba(26,26,46,.07)}
@@ -138,10 +111,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:999;
 .dc-del{background:none;border:none;cursor:pointer;color:rgba(26,26,46,.28);
   font-size:15px;padding:3px 5px;border-radius:4px;transition:all .15s}
 .dc-del:hover{color:var(--red);background:var(--red-l)}
-
-/* payment input row */
-.pay-row{
-  display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+.pay-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;
   background:var(--paper);border-radius:var(--r-sm);padding:10px 14px;margin-bottom:10px}
 .pay-label{font-size:12px;color:var(--ink3);white-space:nowrap}
 .pay-input{width:130px;height:34px;padding:0 10px;background:#fff;
@@ -154,8 +124,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:999;
 .pay-recorded{display:inline-flex;align-items:center;gap:5px;
   background:var(--green-l);color:var(--green);font-size:12px;
   padding:2px 10px;border-radius:12px;border:1px solid #82ddb0;font-weight:500}
-
-/* dot history */
 .dot-row{display:flex;gap:3px;flex-wrap:wrap;margin-top:8px}
 .dot{width:22px;height:22px;border-radius:5px;display:flex;align-items:center;justify-content:center;
   font-size:9px;cursor:default;transition:transform .1s;position:relative}
@@ -168,10 +136,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:999;
   transform:translateX(-50%);background:var(--ink);color:var(--paper);
   font-size:10px;padding:3px 8px;border-radius:4px;white-space:nowrap;
   pointer-events:none;z-index:10;font-family:var(--f-mono)}
-
 .dc-meta{display:flex;gap:16px;font-size:11px;color:var(--ink3);font-family:var(--f-mono);flex-wrap:wrap}
-
-/* ── ADD FORM ── */
 .add-form{background:var(--paper2);border:1.5px dashed var(--line2);
   border-radius:var(--r);padding:20px 24px;margin-bottom:28px}
 .form-grid{display:grid;grid-template-columns:1.8fr 1fr 1.1fr .9fr 1.1fr auto;gap:10px;align-items:end}
@@ -182,8 +147,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:999;
 .field input:focus,.field select:focus{border-color:var(--ink)}
 .field input::placeholder{color:rgba(26,26,46,.3)}
 .field select option{background:#fff}
-
-/* ── HISTORY MODAL ── */
 .modal-bg{position:fixed;inset:0;background:rgba(26,26,46,.55);z-index:200;
   display:flex;align-items:center;justify-content:center;padding:20px;
   opacity:0;pointer-events:none;transition:opacity .2s}
@@ -196,22 +159,16 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:999;
 .hist-month-group{margin-bottom:16px}
 .hist-month-title{font-family:var(--f-mono);font-size:12px;color:var(--ink3);
   border-bottom:1px solid var(--line2);padding-bottom:6px;margin-bottom:8px;letter-spacing:.06em}
-.hist-row{display:flex;justify-content:space-between;align-items:center;
-  font-size:13px;padding:5px 0 5px 8px}
+.hist-row{display:flex;justify-content:space-between;align-items:center;font-size:13px;padding:5px 0 5px 8px}
 .hist-name{color:var(--ink3);display:flex;align-items:center;gap:6px}
 .hist-amt{font-family:var(--f-mono);font-weight:500;color:var(--ink)}
 .hist-total{display:flex;justify-content:space-between;font-size:13px;
   font-weight:500;padding:6px 0 0;margin-top:4px;border-top:1.5px solid var(--line2)}
 .hist-total-amt{font-family:var(--f-mono);color:var(--green)}
-
-/* ── EMPTY ── */
 .empty{text-align:center;padding:2rem;color:var(--ink3);font-size:13px}
-
-/* ── ANIMATIONS ── */
+/* animation only on new nodes via .animate class */
 @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-.debt-card,.dpt-row{animation:fadeUp .25s ease both}
-
-/* ── RESPONSIVE ── */
+.debt-card.animate,.dpt-row.animate{animation:fadeUp .25s ease both}
 @media(max-width:700px){
   .form-grid{grid-template-columns:1fr 1fr}
   .dpt-row{grid-template-columns:1fr 1fr;grid-template-rows:auto auto auto}
@@ -226,8 +183,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:999;
 </head>
 <body>
 <div class="wrap">
-
-<!-- MASTHEAD -->
 <header class="masthead">
   <div>
     <h1>DEBT<em>LOG</em></h1>
@@ -241,7 +196,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:999;
     <button class="btn" onclick="loadDemo()">✦ 載入範例</button>
     <button class="btn btn-ghost" onclick="clearAll()">✕ 清除全部</button>
   </div>
-  <!-- save toast -->
   <div id="saveToast" style="
     position:fixed;bottom:28px;right:28px;z-index:500;
     background:var(--ink);color:var(--paper);
@@ -252,7 +206,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:999;
   ">✓ 已自動儲存</div>
 </header>
 
-<!-- ① 總剩餘負債 Dashboard -->
 <div class="sec"><span class="sec-label">總剩餘負債</span><div class="sec-line"></div></div>
 <div class="dashboard">
   <div class="dash-total-row">
@@ -277,44 +230,26 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:999;
     </div>
   </div>
   <div class="overall-bar-wrap">
-    <div class="overall-bar-labels">
-      <span>整體還清進度</span>
-      <span id="d-pct">0%</span>
-    </div>
-    <div class="overall-bar-track">
-      <div class="overall-bar-fill" id="d-bar" style="width:0%"></div>
-    </div>
+    <div class="overall-bar-labels"><span>整體還清進度</span><span id="d-pct">0%</span></div>
+    <div class="overall-bar-track"><div class="overall-bar-fill" id="d-bar" style="width:0%"></div></div>
     <div class="overall-bar-foot" id="d-bar-foot">新增負債後顯示進度</div>
   </div>
 </div>
 
-<!-- ② 每筆負債進度表 -->
-<div class="sec" style="margin-top:28px">
-  <span class="sec-label">每筆負債倒數</span><div class="sec-line"></div>
-</div>
-<div id="debtProgressTable">
-  <div class="empty">新增負債後顯示各筆倒數進度</div>
-</div>
+<div class="sec" style="margin-top:28px"><span class="sec-label">每筆負債倒數</span><div class="sec-line"></div></div>
+<div id="debtProgressTable"><div class="empty">新增負債後顯示各筆倒數進度</div></div>
 
-<!-- ③ 月份還款紀錄 -->
-<div class="sec" style="margin-top:28px">
-  <span class="sec-label">本月還款紀錄</span><div class="sec-line"></div>
-</div>
+<div class="sec" style="margin-top:28px"><span class="sec-label">本月還款紀錄</span><div class="sec-line"></div></div>
 <div class="month-nav">
   <button class="nav-btn" onclick="changeMonth(-1)">‹</button>
   <span class="month-badge" id="monthBadge"></span>
   <button class="nav-btn" onclick="changeMonth(1)">›</button>
   <button class="btn btn-sm" onclick="goToday()">今天</button>
   <button class="btn btn-sm" onclick="applyAllDefault()">全部套用預設</button>
-  <div class="month-picker-wrap">
-    <input type="month" id="monthPicker" onchange="jumpMonth(this.value)"/>
-  </div>
+  <div class="month-picker-wrap"><input type="month" id="monthPicker" onchange="jumpMonth(this.value)"/></div>
 </div>
-<div id="debtCards">
-  <div class="empty">新增負債後，可在此記錄每月實際還款金額</div>
-</div>
+<div id="debtCards"><div class="empty">新增負債後，可在此記錄每月實際還款金額</div></div>
 
-<!-- ④ 新增負債表單 -->
 <div style="margin-top:32px">
   <div class="sec"><span class="sec-label">新增負債</span><div class="sec-line"></div></div>
   <div class="add-form">
@@ -332,15 +267,11 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:999;
       <div class="field"><label>預設月繳 (NT$)</label><input type="number" id="dPayment" placeholder="8000" min="0"/></div>
       <div class="field"><label>&nbsp;</label><button class="btn btn-accent" onclick="addDebt()">＋ 新增</button></div>
     </div>
-    <div style="margin-top:10px;font-size:11px;color:var(--ink3)">
-      月利率：年利率 ÷ 12，例如年利率 4.2% → 月利率填 0.35
-    </div>
+    <div style="margin-top:10px;font-size:11px;color:var(--ink3)">月利率：年利率 ÷ 12，例如年利率 4.2% → 月利率填 0.35</div>
   </div>
 </div>
+</div>
 
-</div><!-- /wrap -->
-
-<!-- History Modal -->
 <div class="modal-bg" id="histModal" onclick="if(event.target===this)closeHistory()">
   <div class="modal">
     <div class="modal-title">還款歷史紀錄</div>
@@ -350,10 +281,10 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:999;
 </div>
 
 <script type="module">
-// ── STATE ───────────────────────────────────────────────
+// ── STATE ────────────────────────────────────────────────
 let debts = [];
 let nextId = 1;
-let viewYear = new Date().getFullYear();
+let viewYear  = new Date().getFullYear();
 let viewMonth = new Date().getMonth() + 1;
 
 const TC = {
@@ -366,14 +297,17 @@ const TC = {
   other:    {label:'其他',  bg:'#eeede8', color:'#5a5a5a', fill:'#6b7280'},
 };
 
-// ── HELPERS ─────────────────────────────────────────────
-const fmt = n => 'NT$' + Math.round(Math.max(0, n)).toLocaleString('zh-TW');
-const ym  = (y, m) => y + '-' + (m < 10 ? '0' + m : m);
-const ymLabel = k => { const [y,m] = k.split('-'); return y + '年' + parseInt(m) + '月'; };
+// ── HELPERS ──────────────────────────────────────────────
+const fmt      = n => 'NT$' + Math.round(Math.max(0, n)).toLocaleString('zh-TW');
+const ym       = (y, m) => y + '-' + (m < 10 ? '0' + m : m);
+const ymLabel  = k => { const [y,m] = k.split('-'); return y + '年' + parseInt(m) + '月'; };
+const currentKey = () => ym(viewYear, viewMonth);
 
-function currentKey() { return ym(viewYear, viewMonth); }
+function setText(id, val) {
+  const el = document.getElementById(id);
+  if (el && el.textContent !== String(val)) el.textContent = val;
+}
 
-// Replay all recorded payments to get current balance
 function computeBalance(debt) {
   let bal = debt.origAmt;
   const sorted = Object.keys(debt.payments).sort();
@@ -386,7 +320,6 @@ function computeBalance(debt) {
   return bal;
 }
 
-// Estimate remaining months from current balance
 function estMonths(debt) {
   const bal = computeBalance(debt);
   if (bal <= 0) return 0;
@@ -414,7 +347,13 @@ function totalPaid(debt) {
   return Object.values(debt.payments).reduce((s, v) => s + v, 0);
 }
 
-// ── NAVIGATION ──────────────────────────────────────────
+// ── DEBOUNCE ─────────────────────────────────────────────
+function debounce(fn, delay) {
+  let t; return function(...args) { clearTimeout(t); t = setTimeout(() => fn.apply(this, args), delay); };
+}
+const renderDebounced = debounce(() => render(), 400);
+
+// ── NAVIGATION ───────────────────────────────────────────
 function changeMonth(delta) {
   viewMonth += delta;
   if (viewMonth > 12) { viewMonth = 1; viewYear++; }
@@ -432,14 +371,14 @@ function jumpMonth(val) {
   viewYear = y; viewMonth = m; render();
 }
 
-// ── PAYMENT ACTIONS ─────────────────────────────────────
+// ── PAYMENT ACTIONS ──────────────────────────────────────
 function recordPayment(id, key, val) {
   const d = debts.find(x => x.id === id);
   if (!d) return;
   const amt = parseFloat(val);
   if (isNaN(amt) || val === '') delete d.payments[key];
   else d.payments[key] = Math.max(0, amt);
-  render();
+  renderDebounced();
 }
 function applyDefault(id) {
   const d = debts.find(x => x.id === id);
@@ -482,21 +421,21 @@ function clearAll() {
   debts = []; render();
 }
 
-// ── DEMO DATA ────────────────────────────────────────────
+// ── DEMO DATA ─────────────────────────────────────────────
 function loadDemo() {
   const now = new Date();
-  function mk(monthOffset) {
-    let y = now.getFullYear(), m = now.getMonth() + 1 + monthOffset;
+  function mk(offset) {
+    let y = now.getFullYear(), m = now.getMonth() + 1 + offset;
     while (m < 1) { m += 12; y--; }
     while (m > 12) { m -= 12; y++; }
     return ym(y, m);
   }
   debts = [
-    { id: nextId++, name: '政府學貸', type: 'student',  origAmt: 350000, rate: 0.08, defaultPay: 5000,  payments: { [mk(-5)]:5000, [mk(-4)]:5000, [mk(-3)]:5000, [mk(-2)]:7000, [mk(-1)]:5000 } },
-    { id: nextId++, name: '玉山信貸', type: 'personal', origAmt: 180000, rate: 0.60, defaultPay: 12000, payments: { [mk(-3)]:12000, [mk(-2)]:12000, [mk(-1)]:15000 } },
-    { id: nextId++, name: '台新房貸', type: 'mortgage', origAmt: 5000000,rate: 0.15, defaultPay: 28000, payments: { [mk(-5)]:28000, [mk(-4)]:28000, [mk(-3)]:28000, [mk(-2)]:28000, [mk(-1)]:30000 } },
-    { id: nextId++, name: 'Toyota車貸',type:'car',      origAmt: 450000, rate: 0.35, defaultPay: 9500,  payments: { [mk(-4)]:9500, [mk(-3)]:9500, [mk(-2)]:9500, [mk(-1)]:12000 } },
-    { id: nextId++, name: '國泰卡費', type: 'card',     origAmt: 65000,  rate: 1.50, defaultPay: 8000,  payments: { [mk(-2)]:8000, [mk(-1)]:10000 } },
+    { id: nextId++, name:'政府學貸',  type:'student',  origAmt:350000,  rate:0.08, defaultPay:5000,  payments:{[mk(-5)]:5000,[mk(-4)]:5000,[mk(-3)]:5000,[mk(-2)]:7000,[mk(-1)]:5000} },
+    { id: nextId++, name:'玉山信貸',  type:'personal', origAmt:180000,  rate:0.60, defaultPay:12000, payments:{[mk(-3)]:12000,[mk(-2)]:12000,[mk(-1)]:15000} },
+    { id: nextId++, name:'台新房貸',  type:'mortgage', origAmt:5000000, rate:0.15, defaultPay:28000, payments:{[mk(-5)]:28000,[mk(-4)]:28000,[mk(-3)]:28000,[mk(-2)]:28000,[mk(-1)]:30000} },
+    { id: nextId++, name:'Toyota車貸',type:'car',      origAmt:450000,  rate:0.35, defaultPay:9500,  payments:{[mk(-4)]:9500,[mk(-3)]:9500,[mk(-2)]:9500,[mk(-1)]:12000} },
+    { id: nextId++, name:'國泰卡費',  type:'card',     origAmt:65000,   rate:1.50, defaultPay:8000,  payments:{[mk(-2)]:8000,[mk(-1)]:10000} },
   ];
   render();
 }
@@ -506,34 +445,20 @@ function openHistory() {
   const allKeys = new Set();
   debts.forEach(d => Object.keys(d.payments).forEach(k => allKeys.add(k)));
   const sorted = [...allKeys].sort().reverse();
-
   if (sorted.length === 0) {
     document.getElementById('histContent').innerHTML = '<p style="color:var(--ink3);font-size:13px">尚無還款紀錄</p>';
   } else {
     let html = '';
     for (const key of sorted) {
-      let monthTotal = 0;
-      let rows = '';
+      let monthTotal = 0, rows = '';
       debts.forEach(d => {
         if (d.payments[key] !== undefined) {
           const c = TC[d.type];
-          rows += `<div class="hist-row">
-            <span class="hist-name">
-              <span style="background:${c.bg};color:${c.color};padding:1px 7px;border-radius:10px;font-size:10px">${c.label}</span>
-              ${d.name}
-            </span>
-            <span class="hist-amt">${fmt(d.payments[key])}</span>
-          </div>`;
+          rows += `<div class="hist-row"><span class="hist-name"><span style="background:${c.bg};color:${c.color};padding:1px 7px;border-radius:10px;font-size:10px">${c.label}</span>${d.name}</span><span class="hist-amt">${fmt(d.payments[key])}</span></div>`;
           monthTotal += d.payments[key];
         }
       });
-      if (rows) {
-        html += `<div class="hist-month-group">
-          <div class="hist-month-title">${ymLabel(key)}</div>
-          ${rows}
-          <div class="hist-total"><span>本月合計</span><span class="hist-total-amt">${fmt(monthTotal)}</span></div>
-        </div>`;
-      }
+      if (rows) html += `<div class="hist-month-group"><div class="hist-month-title">${ymLabel(key)}</div>${rows}<div class="hist-total"><span>本月合計</span><span class="hist-total-amt">${fmt(monthTotal)}</span></div></div>`;
     }
     document.getElementById('histContent').innerHTML = html;
   }
@@ -541,24 +466,17 @@ function openHistory() {
 }
 function closeHistory() { document.getElementById('histModal').classList.remove('open'); }
 
-// ── RENDER ────────────────────────────────────────────────
-function render() {
-  const key = currentKey();
-  document.getElementById('monthBadge').textContent = viewYear + '年' + viewMonth + '月';
-  document.getElementById('monthPicker').value = key;
-
-  // ── ① Dashboard totals ──
-  const totalOrig = debts.reduce((s, d) => s + d.origAmt, 0);
-  const totalCur  = debts.reduce((s, d) => s + computeBalance(d), 0);
+// ── RENDER DASHBOARD (targeted DOM updates, no innerHTML) ─
+function renderDashboard() {
+  const totalOrig    = debts.reduce((s, d) => s + d.origAmt, 0);
+  const totalCur     = debts.reduce((s, d) => s + computeBalance(d), 0);
   const totalPaidSum = totalOrig - totalCur;
   const pct = totalOrig > 0 ? Math.min(100, Math.max(0, totalPaidSum / totalOrig * 100)) : 0;
 
   const allKeys = new Set();
   debts.forEach(d => Object.keys(d.payments).forEach(k => allKeys.add(k)));
-  const monthsLogged = allKeys.size;
 
-  let maxMonthsLeft = 0;
-  let maxFinishDate = null;
+  let maxMonthsLeft = 0, maxFinishDate = null;
   debts.forEach(d => {
     const em = estMonths(d);
     if (isFinite(em) && em > maxMonthsLeft) maxMonthsLeft = em;
@@ -566,72 +484,112 @@ function render() {
     if (fd && (!maxFinishDate || fd > maxFinishDate)) maxFinishDate = fd;
   });
 
-  document.getElementById('d-total').textContent = fmt(totalCur);
-  document.getElementById('d-orig').textContent = fmt(totalOrig);
-  document.getElementById('d-paid').textContent = fmt(totalPaidSum);
-  document.getElementById('d-months-logged').textContent = monthsLogged;
-  document.getElementById('d-finish').textContent = maxFinishDate ? fmtDate(maxFinishDate) : '請新增負債';
-  document.getElementById('d-months-left').textContent = maxMonthsLeft > 0 ? maxMonthsLeft + '期' : '—';
-  document.getElementById('d-pct').textContent = pct.toFixed(1) + '%';
-  document.getElementById('d-bar').style.width = pct.toFixed(1) + '%';
+  setText('d-total', fmt(totalCur));
+  setText('d-orig', fmt(totalOrig));
+  setText('d-paid', fmt(totalPaidSum));
+  setText('d-months-logged', allKeys.size);
+  setText('d-finish', maxFinishDate ? fmtDate(maxFinishDate) : '請新增負債');
+  setText('d-months-left', maxMonthsLeft > 0 ? maxMonthsLeft + '期' : '—');
+  setText('d-pct', pct.toFixed(1) + '%');
+
+  const bar = document.getElementById('d-bar');
+  const w = pct.toFixed(1) + '%';
+  if (bar && bar.style.width !== w) bar.style.width = w;
 
   const footParts = debts.map(d => {
     const bal = computeBalance(d);
-    const fin = bal <= 0 ? '已還清' : fmtDate(estFinishDate(d));
-    return `${d.name} ${fmt(bal)}（${fin}）`;
+    return `${d.name} ${fmt(bal)}（${bal <= 0 ? '已還清' : fmtDate(estFinishDate(d))}）`;
   });
-  document.getElementById('d-bar-foot').textContent = footParts.join('  ·  ') || '新增負債後顯示進度';
+  const footEl = document.getElementById('d-bar-foot');
+  const footTxt = footParts.join('  ·  ') || '新增負債後顯示進度';
+  if (footEl && footEl.textContent !== footTxt) footEl.textContent = footTxt;
 
-  // ── ② Per-debt progress table ──
-  if (debts.length === 0) {
-    document.getElementById('debtProgressTable').innerHTML = '<div class="empty">新增負債後顯示各筆倒數進度</div>';
-  } else {
-    let tableHtml = '';
-    [...debts].sort((a, b) => estMonths(a) - estMonths(b)).forEach((d, i) => {
-      const bal = computeBalance(d);
-      const paidOff = bal <= 0;
-      const pct2 = Math.min(100, Math.max(0, (d.origAmt - bal) / d.origAmt * 100));
-      const c = TC[d.type];
-      const em = estMonths(d);
-      const fd = fmtDate(estFinishDate(d));
+  setText('monthBadge', viewYear + '年' + viewMonth + '月');
+  const picker = document.getElementById('monthPicker');
+  if (picker && picker.value !== currentKey()) picker.value = currentKey();
+}
 
-      tableHtml += `<div class="dpt-row" style="animation-delay:${i * 0.04}s">
+// ── RENDER PROGRESS TABLE (DOM diff) ─────────────────────
+function renderProgressTable() {
+  const container = document.getElementById('debtProgressTable');
+  if (!container) return;
+  if (!debts.length) {
+    container.innerHTML = '<div class="empty">新增負債後顯示各筆倒數進度</div>';
+    return;
+  }
+
+  const sorted = [...debts].sort((a, b) => estMonths(a) - estMonths(b));
+  const newIds = new Set(sorted.map(d => String(d.id)));
+
+  // Remove stale rows
+  container.querySelectorAll('.dpt-row').forEach(el => {
+    if (!newIds.has(el.dataset.debtId)) el.remove();
+  });
+
+  sorted.forEach((d, i) => {
+    const bal = computeBalance(d);
+    const paidOff = bal <= 0;
+    const pct2 = Math.min(100, Math.max(0, (d.origAmt - bal) / d.origAmt * 100));
+    const c = TC[d.type];
+    const em = estMonths(d);
+    const fd = fmtDate(estFinishDate(d));
+
+    let row = container.querySelector(`.dpt-row[data-debt-id="${d.id}"]`);
+    if (!row) {
+      row = document.createElement('div');
+      row.className = 'dpt-row animate';
+      row.dataset.debtId = String(d.id);
+      row.innerHTML = `
         <div>
           <div class="dpt-name">${d.name}</div>
           <span class="dpt-type" style="background:${c.bg};color:${c.color}">${c.label}</span>
         </div>
         <div class="dpt-bar-wrap">
-          <div class="dpt-bar-track">
-            <div class="dpt-bar-fill" style="width:${pct2.toFixed(1)}%;background:${c.fill}"></div>
-          </div>
+          <div class="dpt-bar-track"><div class="dpt-bar-fill" style="width:${pct2.toFixed(1)}%;background:${c.fill}"></div></div>
           <div class="dpt-bar-pct">已還 ${pct2.toFixed(1)}%　剩 ${fmt(bal)}</div>
         </div>
-        <div>
-          <div class="dpt-remaining">${fmt(bal)}</div>
-          <div class="dpt-remaining-label">剩餘金額</div>
-        </div>
-        <div>
-          <div class="dpt-finish">
-            ${paidOff
-              ? '<span class="paid-off-tag">✓ 已還清</span>'
-              : `<strong>${fd}</strong>還清`}
-          </div>
-        </div>
-        <div class="dpt-months">
-          ${paidOff ? '' : (isFinite(em) ? `剩約<br><strong style="font-size:18px;color:var(--ink)">${em}</strong> 期` : '需增加<br>還款額')}
-        </div>
-      </div>`;
-    });
-    document.getElementById('debtProgressTable').innerHTML = tableHtml;
-  }
+        <div><div class="dpt-remaining">${fmt(bal)}</div><div class="dpt-remaining-label">剩餘金額</div></div>
+        <div class="dpt-finish-cell">${paidOff ? '<span class="paid-off-tag">✓ 已還清</span>' : `<strong>${fd}</strong>還清`}</div>
+        <div class="dpt-months-cell">${paidOff ? '' : (isFinite(em) ? `剩約<br><strong style="font-size:18px;color:var(--ink)">${em}</strong> 期` : '需增加<br>還款額')}</div>`;
+      const rows = [...container.querySelectorAll('.dpt-row')];
+      if (rows[i]) container.insertBefore(row, rows[i]);
+      else container.appendChild(row);
+      setTimeout(() => row.classList.remove('animate'), 300);
+    } else {
+      // Patch changed values only
+      const barFill = row.querySelector('.dpt-bar-fill');
+      const bw = pct2.toFixed(1) + '%';
+      if (barFill && barFill.style.width !== bw) barFill.style.width = bw;
+      const barPct = row.querySelector('.dpt-bar-pct');
+      const bpTxt = `已還 ${pct2.toFixed(1)}%　剩 ${fmt(bal)}`;
+      if (barPct && barPct.textContent !== bpTxt) barPct.textContent = bpTxt;
+      const remEl = row.querySelector('.dpt-remaining');
+      if (remEl && remEl.textContent !== fmt(bal)) remEl.textContent = fmt(bal);
+      const finEl = row.querySelector('.dpt-finish-cell');
+      const finHtml = paidOff ? '<span class="paid-off-tag">✓ 已還清</span>' : `<strong>${fd}</strong>還清`;
+      if (finEl && finEl.innerHTML !== finHtml) finEl.innerHTML = finHtml;
+      const mEl = row.querySelector('.dpt-months-cell');
+      const mHtml = paidOff ? '' : (isFinite(em) ? `剩約<br><strong style="font-size:18px;color:var(--ink)">${em}</strong> 期` : '需增加<br>還款額');
+      if (mEl && mEl.innerHTML !== mHtml) mEl.innerHTML = mHtml;
+    }
+  });
+}
 
-  // ── ③ Monthly cards ──
-  if (debts.length === 0) {
-    document.getElementById('debtCards').innerHTML = '<div class="empty">新增負債後，可在此記錄每月實際還款金額</div>';
+// ── RENDER CARDS (DOM diff, input-safe) ──────────────────
+function renderCards() {
+  const key = currentKey();
+  const container = document.getElementById('debtCards');
+  if (!container) return;
+  if (!debts.length) {
+    container.innerHTML = '<div class="empty">新增負債後，可在此記錄每月實際還款金額</div>';
     return;
   }
 
-  let cardsHtml = '';
+  const currentIds = new Set(debts.map(d => String(d.id)));
+  container.querySelectorAll('.debt-card').forEach(el => {
+    if (!currentIds.has(el.dataset.debtId)) el.remove();
+  });
+
   debts.forEach((d, idx) => {
     const bal = computeBalance(d);
     const paidOff = bal <= 0;
@@ -639,68 +597,133 @@ function render() {
     const curPay = d.payments[key];
     const hasRecord = curPay !== undefined;
 
-    // 12-month dot history
-    let dotsHtml = '';
-    for (let i = 11; i >= 0; i--) {
-      let [yy, mm] = [viewYear, viewMonth - i];
-      while (mm < 1) { mm += 12; yy--; }
-      const k = ym(yy, mm);
-      const isToday = k === key;
-      const p = d.payments[k];
-      let cls = 'skip', tip = ymLabel(k) + '：未記錄', txt = '';
-      if (p !== undefined) { cls = 'done'; tip = ymLabel(k) + '：' + fmt(p); txt = '✓'; }
-      if (isToday && !hasRecord) { cls = 'today'; tip = '本月（未記錄）'; txt = '●'; }
-      if (isToday && hasRecord) { cls = 'today done'; tip = '本月：' + fmt(p); txt = '✓'; }
-      dotsHtml += `<div class="dot ${cls}" data-tip="${tip}">${txt}</div>`;
+    let card = container.querySelector(`.debt-card[data-debt-id="${d.id}"]`);
+    if (!card) {
+      // Build dots
+      let dotsHtml = '';
+      for (let i = 11; i >= 0; i--) {
+        let [yy, mm] = [viewYear, viewMonth - i];
+        while (mm < 1) { mm += 12; yy--; }
+        const k = ym(yy, mm); const isToday = k === key; const p = d.payments[k];
+        let cls = 'skip', tip = ymLabel(k) + '：未記錄', txt = '';
+        if (p !== undefined) { cls = 'done'; tip = ymLabel(k) + '：' + fmt(p); txt = '✓'; }
+        if (isToday && !hasRecord) { cls = 'today'; tip = '本月（未記錄）'; txt = '●'; }
+        if (isToday && hasRecord)  { cls = 'today done'; tip = '本月：' + fmt(p); txt = '✓'; }
+        dotsHtml += `<div class="dot ${cls}" data-tip="${tip}">${txt}</div>`;
+      }
+      card = document.createElement('div');
+      card.className = `debt-card animate${paidOff ? ' paid-off' : ''}`;
+      card.dataset.debtId = String(d.id);
+      card.innerHTML = `
+        <div class="dc-head">
+          <div class="dc-head-left">
+            <span class="dc-name">${d.name}</span>
+            <span class="dc-badge" style="background:${c.bg};color:${c.color}">${c.label}</span>
+            <span class="paidoff-wrap">${paidOff ? '<span class="paid-off-tag">✓ 已還清</span>' : ''}</span>
+            <span class="rec-wrap">${hasRecord && !paidOff ? `<span class="pay-recorded">✓ 本月已記錄 ${fmt(curPay)}</span>` : ''}</span>
+          </div>
+          <div class="dc-head-right">
+            <span class="dc-bal">${fmt(bal)}</span>
+            <button class="dc-del" onclick="removeDebt(${d.id})" aria-label="刪除">✕</button>
+          </div>
+        </div>
+        <div class="pay-row-wrap">${!paidOff ? `
+        <div class="pay-row">
+          <span class="pay-label">本月實際還款</span>
+          <input class="pay-input" type="number" min="0" id="pay_${d.id}"
+            value="${hasRecord ? curPay : ''}" placeholder="${d.defaultPay}"
+            oninput="recordPayment(${d.id},'${key}',this.value)"/>
+          <span class="pay-default">預設 ${fmt(d.defaultPay)}</span>
+          <div class="pay-actions">
+            <button class="btn btn-sm btn-fill" onclick="applyDefault(${d.id})">套用預設</button>
+            <span class="clear-wrap">${hasRecord ? `<button class="btn btn-sm" style="color:var(--red);border-color:var(--red)" onclick="clearPay(${d.id})">清除</button>` : ''}</span>
+          </div>
+        </div>` : ''}</div>
+        <div class="dc-meta">
+          <span>月利率 ${d.rate}%</span>
+          <span>起始 ${fmt(d.origAmt)}</span>
+          <span class="dc-total-paid">累積已還 ${fmt(totalPaid(d))}</span>
+          <span>預設月繳 ${fmt(d.defaultPay)}</span>
+        </div>
+        <div class="dot-row">${dotsHtml}</div>`;
+      container.appendChild(card);
+      setTimeout(() => card.classList.remove('animate'), 300);
+    } else {
+      // Patch only changed values
+      const activeId = document.activeElement && document.activeElement.id;
+
+      // Balance
+      const balEl = card.querySelector('.dc-bal');
+      if (balEl && balEl.textContent !== fmt(bal)) balEl.textContent = fmt(bal);
+
+      // paid-off class
+      if (paidOff && !card.classList.contains('paid-off')) card.classList.add('paid-off');
+      if (!paidOff && card.classList.contains('paid-off')) card.classList.remove('paid-off');
+
+      // Paidoff tag
+      const poWrap = card.querySelector('.paidoff-wrap');
+      const poHtml = paidOff ? '<span class="paid-off-tag">✓ 已還清</span>' : '';
+      if (poWrap && poWrap.innerHTML !== poHtml) poWrap.innerHTML = poHtml;
+
+      // Recorded badge
+      const recWrap = card.querySelector('.rec-wrap');
+      const recHtml = hasRecord && !paidOff ? `<span class="pay-recorded">✓ 本月已記錄 ${fmt(curPay)}</span>` : '';
+      if (recWrap && recWrap.innerHTML !== recHtml) recWrap.innerHTML = recHtml;
+
+      // Payment input (skip if focused)
+      const payInput = card.querySelector(`#pay_${d.id}`);
+      if (payInput && activeId !== `pay_${d.id}`) {
+        const newVal = hasRecord ? String(curPay) : '';
+        if (payInput.value !== newVal) payInput.value = newVal;
+      }
+
+      // Clear button
+      const clearWrap = card.querySelector('.clear-wrap');
+      const clearHtml = hasRecord ? `<button class="btn btn-sm" style="color:var(--red);border-color:var(--red)" onclick="clearPay(${d.id})">清除</button>` : '';
+      if (clearWrap && clearWrap.innerHTML !== clearHtml) clearWrap.innerHTML = clearHtml;
+
+      // Cumulative paid
+      const tpEl = card.querySelector('.dc-total-paid');
+      const tpTxt = `累積已還 ${fmt(totalPaid(d))}`;
+      if (tpEl && tpEl.textContent !== tpTxt) tpEl.textContent = tpTxt;
+
+      // Dots
+      const dotRow = card.querySelector('.dot-row');
+      if (dotRow) {
+        const dots = dotRow.querySelectorAll('.dot');
+        let di = 0;
+        for (let i = 11; i >= 0; i--, di++) {
+          let [yy, mm] = [viewYear, viewMonth - i];
+          while (mm < 1) { mm += 12; yy--; }
+          const k = ym(yy, mm); const isToday = k === key; const p = d.payments[k];
+          let cls = 'skip', tip = ymLabel(k) + '：未記錄', txt = '';
+          if (p !== undefined) { cls = 'done'; tip = ymLabel(k) + '：' + fmt(p); txt = '✓'; }
+          if (isToday && !hasRecord) { cls = 'today'; tip = '本月（未記錄）'; txt = '●'; }
+          if (isToday && hasRecord)  { cls = 'today done'; tip = '本月：' + fmt(p); txt = '✓'; }
+          if (dots[di]) {
+            if (dots[di].className !== `dot ${cls}`) dots[di].className = `dot ${cls}`;
+            if (dots[di].dataset.tip !== tip) dots[di].dataset.tip = tip;
+            if (dots[di].textContent !== txt) dots[di].textContent = txt;
+          }
+        }
+      }
     }
-
-    cardsHtml += `<div class="debt-card${paidOff ? ' paid-off' : ''}" style="animation-delay:${idx * 0.04}s">
-      <div class="dc-head">
-        <div class="dc-head-left">
-          <span class="dc-name">${d.name}</span>
-          <span class="dc-badge" style="background:${c.bg};color:${c.color}">${c.label}</span>
-          ${paidOff ? '<span class="paid-off-tag">✓ 已還清</span>' : ''}
-          ${hasRecord && !paidOff ? `<span class="pay-recorded">✓ 本月已記錄 ${fmt(curPay)}</span>` : ''}
-        </div>
-        <div class="dc-head-right">
-          <span class="dc-bal">${fmt(bal)}</span>
-          <button class="dc-del" onclick="removeDebt(${d.id})" aria-label="刪除">✕</button>
-        </div>
-      </div>
-
-      ${!paidOff ? `
-      <div class="pay-row">
-        <span class="pay-label">本月實際還款</span>
-        <input class="pay-input" type="number" min="0"
-          id="pay_${d.id}"
-          value="${hasRecord ? curPay : ''}"
-          placeholder="${d.defaultPay}"
-          oninput="recordPayment(${d.id},'${key}',this.value)"
-        />
-        <span class="pay-default">預設 ${fmt(d.defaultPay)}</span>
-        <div class="pay-actions">
-          <button class="btn btn-sm btn-fill" onclick="applyDefault(${d.id})">套用預設</button>
-          ${hasRecord ? `<button class="btn btn-sm" style="color:var(--red);border-color:var(--red)" onclick="clearPay(${d.id})">清除</button>` : ''}
-        </div>
-      </div>` : ''}
-
-      <div class="dc-meta">
-        <span>月利率 ${d.rate}%</span>
-        <span>起始 ${fmt(d.origAmt)}</span>
-        <span>累積已還 ${fmt(totalPaid(d))}</span>
-        <span>預設月繳 ${fmt(d.defaultPay)}</span>
-      </div>
-      <div class="dot-row">${dotsHtml}</div>
-    </div>`;
   });
-  document.getElementById('debtCards').innerHTML = cardsHtml;
+}
+
+// ── MAIN RENDER ───────────────────────────────────────────
+function render() {
+  renderDashboard();
+  renderProgressTable();
+  renderCards();
+  if (!_fromSnapshot) saveToStorage();
 }
 
 // ── FIREBASE ─────────────────────────────────────────────
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged }
   from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
-import { getFirestore, doc, setDoc, getDoc, onSnapshot }
+import { getFirestore, doc, setDoc, onSnapshot }
   from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
 
 const firebaseConfig = {
@@ -718,8 +741,9 @@ const db   = getFirestore(app);
 
 let currentUser = null;
 let unsubscribe = null;
+let _fromSnapshot = false;
+let _isSaving = false;
 
-// ── AUTH UI ───────────────────────────────────────────────
 function updateAuthUI(user) {
   const bar = document.getElementById('authBar');
   if (user) {
@@ -737,9 +761,8 @@ function updateAuthUI(user) {
 }
 
 async function handleSignIn() {
-  try {
-    await signInWithPopup(auth, new GoogleAuthProvider());
-  } catch(e) { console.error(e); alert('登入失敗，請再試一次'); }
+  try { await signInWithPopup(auth, new GoogleAuthProvider()); }
+  catch(e) { console.error(e); alert('登入失敗，請再試一次'); }
 }
 async function handleSignOut() {
   if (unsubscribe) { unsubscribe(); unsubscribe = null; }
@@ -748,35 +771,7 @@ async function handleSignOut() {
   render();
 }
 
-// ── FIRESTORE SYNC ────────────────────────────────────────
 let saveTimer = null;
-function saveToStorage() {
-  showToast();
-  if (!currentUser) return;
-  clearTimeout(saveTimer);
-  saveTimer = setTimeout(async () => {
-    try {
-      await setDoc(doc(db, 'users', currentUser.uid, 'data', 'debtlog'), {
-        debts, nextId, viewYear, viewMonth, updatedAt: Date.now()
-      });
-    } catch(e) { console.warn('Firestore save failed', e); }
-  }, 800);
-}
-
-function subscribeToData(uid) {
-  if (unsubscribe) unsubscribe();
-  unsubscribe = onSnapshot(doc(db, 'users', uid, 'data', 'debtlog'), snap => {
-    if (snap.exists()) {
-      const data = snap.data();
-      debts = data.debts || [];
-      nextId = data.nextId || (debts.length ? Math.max(...debts.map(d=>d.id))+1 : 1);
-      if (data.viewYear)  viewYear  = data.viewYear;
-      if (data.viewMonth) viewMonth = data.viewMonth;
-      _render();
-    }
-  });
-}
-
 let toastTimer;
 function showToast() {
   const t = document.getElementById('saveToast');
@@ -784,24 +779,48 @@ function showToast() {
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => { t.style.display = 'none'; }, 1800);
 }
+function saveToStorage() {
+  if (!currentUser) { showToast(); return; }
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(async () => {
+    try {
+      _isSaving = true;
+      await setDoc(doc(db, 'users', currentUser.uid, 'data', 'debtlog'), {
+        debts, nextId, viewYear, viewMonth, updatedAt: Date.now()
+      });
+      showToast();
+    } catch(e) { console.warn('Firestore save failed', e); }
+    finally { setTimeout(() => { _isSaving = false; }, 500); }
+  }, 800);
+}
 
-// ── EXPORT / IMPORT ──────────────────────────────────────
+function subscribeToData(uid) {
+  if (unsubscribe) unsubscribe();
+  unsubscribe = onSnapshot(doc(db, 'users', uid, 'data', 'debtlog'), snap => {
+    if (_isSaving) return;
+    if (snap.exists()) {
+      const data = snap.data();
+      debts   = data.debts || [];
+      nextId  = data.nextId || (debts.length ? Math.max(...debts.map(d => d.id)) + 1 : 1);
+      if (data.viewYear)  viewYear  = data.viewYear;
+      if (data.viewMonth) viewMonth = data.viewMonth;
+      _fromSnapshot = true; render(); _fromSnapshot = false;
+    }
+  });
+}
+
 function exportData() {
-  if (debts.length === 0) { alert('尚無資料可匯出'); return; }
-  const payload = JSON.stringify({ debts, nextId }, null, 2);
-  const blob = new Blob([payload], { type: 'application/json' });
+  if (!debts.length) { alert('尚無資料可匯出'); return; }
+  const blob = new Blob([JSON.stringify({ debts, nextId }, null, 2)], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   const now = new Date();
   a.href = url;
   a.download = `debtlog_${now.getFullYear()}${String(now.getMonth()+1).padStart(2,'0')}${String(now.getDate()).padStart(2,'0')}.json`;
-  a.click();
-  URL.revokeObjectURL(url);
+  a.click(); URL.revokeObjectURL(url);
 }
-
 function importData(event) {
-  const file = event.target.files[0];
-  if (!file) return;
+  const file = event.target.files[0]; if (!file) return;
   const reader = new FileReader();
   reader.onload = e => {
     try {
@@ -809,33 +828,21 @@ function importData(event) {
       if (!data.debts || !Array.isArray(data.debts)) throw new Error('格式錯誤');
       if (!confirm(`匯入後將取代目前 ${debts.length} 筆負債資料，確定繼續？`)) return;
       debts = data.debts;
-      nextId = data.nextId || Math.max(...debts.map(d=>d.id), 0) + 1;
-      saveToStorage();
-      _render();
-      alert('✓ 匯入成功！');
+      nextId = data.nextId || Math.max(...debts.map(d => d.id), 0) + 1;
+      render(); saveToStorage(); alert('✓ 匯入成功！');
     } catch(err) { alert('匯入失敗：' + err.message); }
   };
-  reader.readAsText(file);
-  event.target.value = '';
+  reader.readAsText(file); event.target.value = '';
 }
-
-// ── PATCH render to auto-save ────────────────────────────
-const _render = render;
-render = function() { _render(); saveToStorage(); };
 
 // ── INIT ─────────────────────────────────────────────────
 onAuthStateChanged(auth, user => {
   currentUser = user;
   updateAuthUI(user);
-  if (user) {
-    subscribeToData(user.uid);
-  } else {
-    debts = []; nextId = 1;
-    _render();
-  }
+  if (user) { subscribeToData(user.uid); }
+  else { debts = []; nextId = 1; render(); }
 });
 
-// ── 讓 onclick 可以呼叫 module 內的函數 ──────────────────
 Object.assign(window, {
   handleSignIn, handleSignOut,
   exportData, importData,
