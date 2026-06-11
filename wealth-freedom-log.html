@@ -840,16 +840,19 @@ async function handleSignOut(){
 
 let saveTimer=null;
 let toastTimer;
+let _isSaving=false;
 function showToast(){ const t=document.getElementById('saveToast'); t.style.display='flex'; clearTimeout(toastTimer); toastTimer=setTimeout(()=>{t.style.display='none';},1800); }
 function save(){
   if(!currentUser){ showToast(); return; }
   clearTimeout(saveTimer);
   saveTimer=setTimeout(async()=>{
     try{
+      _isSaving=true;
       await setDoc(doc(db,'users',currentUser.uid,'data','wealthlog'),
         {accounts,nextId,viewYear,viewMonth,goal,updatedAt:Date.now()});
       showToast();
     }catch(e){console.warn('Firestore save failed',e);}
+    finally{ setTimeout(()=>{ _isSaving=false; },500); }
   },800);
 }
 
@@ -862,6 +865,8 @@ function applyGoalToUI(g){
 function subscribeToData(uid){
   if(unsubscribe)unsubscribe();
   unsubscribe=onSnapshot(doc(db,'users',uid,'data','wealthlog'),snap=>{
+    // skip snapshot triggered by our own save
+    if(_isSaving) return;
     if(snap.exists()){
       const d=snap.data();
       accounts=d.accounts||[]; nextId=d.nextId||1;
@@ -974,7 +979,11 @@ function renderForecast(){
     datasets.push({label:s.label,data:projectGrowthCompound(total,s.monthly,yearCount*12,s.rate),borderColor:s.color,backgroundColor:s.color+'20',borderWidth:2.5,pointRadius:3,pointHoverRadius:6,fill:false,tension:.35});
   });
   const ctx=document.getElementById('fcChart'); if(!ctx)return;
-  if(fcChartInst)fcChartInst.destroy();
+  if(fcChartInst){
+    fcChartInst.data.labels=labels;
+    fcChartInst.data.datasets=datasets;
+    fcChartInst.update('none');
+  } else {
   fcChartInst=new Chart(ctx,{
     type:'line',data:{labels,datasets},
     options:{
@@ -986,6 +995,7 @@ function renderForecast(){
       }
     }
   });
+  } // end else (chart init)
   const leg=document.getElementById('fcLegend');
   if(leg){
     leg.innerHTML=`<div style="font-size:10px;color:var(--text3);font-weight:500;margin-bottom:2px">加權報酬率 ${wRate.toFixed(1)}%／年</div>`
