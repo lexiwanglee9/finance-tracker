@@ -835,7 +835,7 @@ async function handleSignOut(){
   await signOut(auth);
   accounts=[]; goal={amt:0,date:'',monthly:0};
   ['goalAmt','goalDate','goalMonthly'].forEach(id=>document.getElementById(id).value='');
-  _render();
+  render();
 }
 
 let saveTimer=null;
@@ -867,7 +867,7 @@ function subscribeToData(uid){
       accounts=d.accounts||[]; nextId=d.nextId||1;
       if(d.viewYear)viewYear=d.viewYear; if(d.viewMonth)viewMonth=d.viewMonth;
       if(d.goal){goal=d.goal; applyGoalToUI(goal);}
-      _fromSnapshot=true; _render(); _fromSnapshot=false;
+      _fromSnapshot=true; render(); _fromSnapshot=false;
     }
   });
 }
@@ -889,7 +889,7 @@ function importData(ev){
       if(!confirm(`匯入後將取代目前 ${accounts.length} 筆帳戶，確定？`))return;
       accounts=d.accounts; nextId=d.nextId||1;
       if(d.goal){goal=d.goal; applyGoalToUI(goal);}
-      save(); _render(); alert('✓ 匯入成功！');
+      save(); render(); alert('✓ 匯入成功！');
     }catch(err){alert('匯入失敗：'+err.message);}
   };
   reader.readAsText(file); ev.target.value='';
@@ -1135,7 +1135,7 @@ function render(){
     document.getElementById('accProgressTable').innerHTML=html;
   }
 
-  if(!accounts.length){ document.getElementById('accCards').innerHTML='<div class="empty">新增帳戶後，可在此記錄每月存款</div>'; renderForecast(); renderAdvice(); save(); return; }
+  if(!accounts.length){ document.getElementById('accCards').innerHTML='<div class="empty">新增帳戶後，可在此記錄每月存款</div>'; renderForecast(); renderAdvice(); if(!_fromSnapshot) save(); return; }
   let cardsHtml='';
   accounts.forEach((a,idx)=>{
     const c=TC[a.type]; const bal=currentBalance(a); const curDep=a.deposits[key]; const hasRec=curDep!==undefined;
@@ -1184,17 +1184,11 @@ function render(){
   document.getElementById('accCards').innerHTML=cardsHtml;
   renderForecast();
   renderAdvice();
+  if(!_fromSnapshot) save();
 }
 
-// ── PATCH render ─────────────────────────────────────────
-const _render = render;
-let _fromSnapshot = false;
-render = function(){
-  _render();
-  if(!_fromSnapshot) save();
-};
-
 // ── INIT ─────────────────────────────────────────────────
+let _fromSnapshot = false;
 onAuthStateChanged(auth, user => {
   currentUser = user;
   updateAuthUI(user);
@@ -1202,7 +1196,7 @@ onAuthStateChanged(auth, user => {
     subscribeToData(user.uid);
   } else {
     accounts=[]; goal={amt:0,date:'',monthly:0};
-    _render();
+    render();
   }
 });
 applyDefaultRate();
